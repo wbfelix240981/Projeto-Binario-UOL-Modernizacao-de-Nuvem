@@ -233,6 +233,38 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:14px 28p
   .av{display:none}
   .task-avatars .av:first-child{display:inline-flex}
 }
+
+/* ── BADGE STATUS ── */
+.tg-status-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge-complete{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.25)}
+.badge-inprog{background:rgba(217,119,6,.1);color:var(--amber);border:1px solid rgba(217,119,6,.25)}
+.badge-todo{background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0}
+/* ── LINK CLICKUP ── */
+.cu-link{color:inherit;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.task-row:hover .cu-link{color:var(--blue-light)}
+/* ── MINI PROGRESS NOS GRUPOS ── */
+.tg-progress{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.tg-prog-bar{width:48px;height:3px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+.tg-prog-fill{height:100%;border-radius:99px;transition:width .8s ease}
+.tg-prog-pct{font-family:var(--mono);font-size:8px;color:var(--text-light);min-width:24px;text-align:right}
+/* ── FOOTER BADGE ── */
+.ft-badge{font-family:var(--mono);font-size:8px;padding:3px 10px;border-radius:20px;background:rgba(21,101,192,.12);color:var(--blue-light);border:1px solid rgba(21,101,192,.2);letter-spacing:1px}
+/* ── ANIMAÇÃO ── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.tg{animation:fadeIn .25s ease forwards;opacity:0}
+.tg:nth-child(1){animation-delay:.04s}.tg:nth-child(2){animation-delay:.08s}
+.tg:nth-child(3){animation-delay:.12s}.tg:nth-child(4){animation-delay:.16s}
+.tg:nth-child(5){animation-delay:.20s}.tg:nth-child(6){animation-delay:.24s}
+.tg:nth-child(7){animation-delay:.28s}.tg:nth-child(8){animation-delay:.32s}
+/* ── SCROLL SUAVE ── */
+html{scroll-behavior:smooth}
+/* ── LIVE BADGE ── */
+.tb-live{background:rgba(34,197,94,.08);padding:4px 10px;border-radius:20px;border:1px solid rgba(34,197,94,.2)}
+/* ── HOVER TASK ── */
+.task-row:hover .task-status-dot{transform:scale(1.3);transition:transform .15s}
+.task-status-dot{transition:transform .15s}
+/* ── GL AVATAR ── */
+.av-gl{background:#558b2f}
 </style>
 </head>
 <body>
@@ -248,7 +280,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:14px 28p
   </div>
   <div class="tb-r">
     <span class="tb-project">Modernização Nuvem Privada · BCP</span>
-    <div class="tb-live"><span class="tb-live-dot"></span>Live</div>
+    <div class="tb-live"><span class="tb-live-dot"></span>Ao Vivo</div>
   </div>
 </div>
 
@@ -311,7 +343,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:14px 28p
 <footer>
   <div class="ft-l">
     <span class="ft-brand">Escritório de Projetos · Binario Cloud</span>
-    <span class="ft-sync" id="ftNote">Última atualização: 12/06/2026 22:48</span>
+    <span class="ft-sync" id="ftNote">Última atualização: 12/06/2026 22:52</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+    <span class="ft-badge">BCP · Edge UOL</span>
+    <span class="ft-badge" id="ftTaskCount">—</span>
   </div>
 </footer>
 
@@ -610,7 +646,8 @@ function taskRow(id, depth) {
     inner += `<span class="tr-arrow invis">▶</span>`;
   }
   inner += statusDot(t.s);
-  inner += `<span class="task-name${struck}" title="${t.n}">${t.n}</span>`;
+  const cuUrl = t.u || `https://app.clickup.com/t/${id}`;
+  inner += `<a class="task-name${struck} cu-link" title="Abrir no ClickUp: ${t.n}" href="${cuUrl}" target="_blank" rel="noopener">${t.n}</a>`;
   inner += avatarsHtml(t.a);
   inner += `</div>`;
 
@@ -695,6 +732,8 @@ function renderAll() {
   document.getElementById('gpFill').style.width = pct + '%';
   document.getElementById('gpPct').textContent = pctDisplay;
   document.getElementById('totalCount').textContent = ptotal + ' tarefas';
+  const ftTaskCount = document.getElementById('ftTaskCount');
+  if (ftTaskCount) ftTaskCount.textContent = ptotal + ' tarefas no escopo';
   const pbDone = document.getElementById('pbDone');
   const pbProg = document.getElementById('pbProg');
   const pbTodo = document.getElementById('pbTodo');
@@ -751,6 +790,14 @@ function renderAll() {
           <span class="tg-name">${t.n}</span>
         </div>
         <div class="tg-r">
+        ${(()=>{
+          const desc2 = allDescendants(id);
+          const tot2 = desc2.length + 1;
+          const don2 = [id,...desc2].filter(x=>TASKS[x]?.s==='complete').length;
+          const pct2 = tot2 ? Math.round(don2/tot2*100) : 0;
+          const col = pct2===100?'var(--green)':pct2>0?'var(--amber)':'#e2e8f0';
+          return `<div class="tg-progress"><div class="tg-prog-bar"><div class="tg-prog-fill" style="width:${pct2}%;background:${col}"></div></div><span class="tg-prog-pct">${pct2}%</span></div>`;
+        })()}
           <div class="tg-counts">${cntHtml}</div>
           
         </div>
