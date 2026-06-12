@@ -134,7 +134,7 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;-w
 .task-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .dot-complete{background:var(--green-light);box-shadow:0 0 4px rgba(34,197,94,.5)}
 .dot-inprog{background:var(--amber-light);box-shadow:0 0 4px rgba(245,158,11,.5)}
-.dot-todo{background:#e2e8f0}
+.dot-todo{background:#94a3b8}
 .task-name{flex:1;min-width:0;font-size:11px;font-weight:700;color:#111827;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:4px;max-width:calc(100% - 80px)}
 .task-name.struck{text-decoration:line-through;color:#64748b;font-weight:500}
 .task-avatars{display:flex;align-items:center;gap:3px;flex-shrink:0}
@@ -208,7 +208,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:14px 28p
 
   /* TASK ROWS */
   .task-row{padding:7px 10px 7px 36px;min-height:30px}
-  .task-name{font-size:10px}
+  .task-name{font-size:10px;color:#111827 !important;font-weight:700 !important}
   .av{height:18px;font-size:8px;padding:0 5px}
 
   /* FOOTER */
@@ -229,7 +229,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:14px 28p
   .kpi-val{font-size:18px}
   .tg-r{gap:4px}
   .tg-cnt:not(:first-child){display:none}
-  .task-name{font-size:9px}
+  .task-name{font-size:9px;color:#111827 !important;font-weight:700 !important}
   .av{display:none}
   .task-avatars .av:first-child{display:inline-flex}
 }
@@ -265,6 +265,36 @@ html{scroll-behavior:smooth}
 .task-status-dot{transition:transform .15s}
 /* ── GL AVATAR ── */
 .av-gl{background:#558b2f}
+
+/* ── FORÇA CONTRASTE TASKS NÃO INICIADAS ── */
+.ss-todo .task-row .task-name,
+.ss-todo .task-row .cu-link {
+  color: #1e293b !important;
+  font-weight: 700 !important;
+}
+.ss-todo .task-row {
+  background: #f8fafc;
+}
+.ss-todo .task-row:hover {
+  background: #eef2f7 !important;
+}
+/* ── FORÇA CONTRASTE TASKS CONCLUÍDAS ── */
+.ss-done .task-row .task-name,
+.ss-done .task-row .cu-link {
+  color: #64748b !important;
+  font-weight: 500 !important;
+  text-decoration: line-through;
+}
+/* ── FORÇA CONTRASTE TASKS EM ANDAMENTO ── */
+.ss-prog .task-row .task-name,
+.ss-prog .task-row .cu-link {
+  color: #1e293b !important;
+  font-weight: 700 !important;
+}
+/* ── SS-BODY FUNDO VISÍVEL ── */
+.ss-done .ss-body { background: #f1f5f9; }
+.ss-prog .ss-body { background: #fffbf0; }
+.ss-todo .ss-body { background: #f8fafc; }
 </style>
 </head>
 <body>
@@ -343,7 +373,7 @@ html{scroll-behavior:smooth}
 <footer>
   <div class="ft-l">
     <span class="ft-brand">Escritório de Projetos · Binario Cloud</span>
-    <span class="ft-sync" id="ftNote">Última atualização: 12/06/2026 23:01</span>
+    <span class="ft-sync" id="ftNote">Última atualização: 12/06/2026 23:03</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
     <span class="ft-badge">BCP · Edge UOL</span>
