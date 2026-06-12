@@ -684,14 +684,16 @@ function renderAll() {
     }
   });
 
-  const pct = Math.round(pdone / ptotal * 100) || 0;
-  document.getElementById('kpiPct').textContent = pct + '%';
+  const pctRaw = ptotal ? (pdone / ptotal * 100) : 0;
+  const pct = Math.round(pctRaw);
+  const pctDisplay = pctRaw.toFixed(1).replace('.', ',') + '%';
+  document.getElementById('kpiPct').textContent = pctDisplay;
   document.getElementById('kpiSub').textContent = `${pdone} / ${ptotal} tarefas`;
   document.getElementById('kpiDone').textContent = pdone;
   document.getElementById('kpiProg').textContent = pprog;
   document.getElementById('kpiTodo').textContent = ptodo;
   document.getElementById('gpFill').style.width = pct + '%';
-  document.getElementById('gpPct').textContent = pct + '%';
+  document.getElementById('gpPct').textContent = pctDisplay;
   document.getElementById('totalCount').textContent = ptotal + ' tarefas';
   const pbDone = document.getElementById('pbDone');
   const pbProg = document.getElementById('pbProg');
