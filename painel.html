@@ -164,137 +164,172 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:14px 28p
 .ov-err-m{font-family:var(--mono);font-size:10px;color:var(--text-mid);line-height:1.7;margin-bottom:16px}
 .ov-close{font-family:var(--mono);font-size:9px;padding:5px 16px;border-radius:4px;border:1px solid #e2e8f0;color:var(--text-mid);background:#f8fafc;cursor:pointer}
 
-@media(max-width:768px){
+
+/* ═══════════════════════════════════════
+   SUPER MOBILE — Redesign completo
+═══════════════════════════════════════ */
+
+/* Touch targets mínimos */
+* { -webkit-tap-highlight-color: transparent; }
+button, .tg-head, .ss-head { -webkit-tap-highlight-color: rgba(21,101,192,.1); }
+
+/* ── TABLET (≤900px) ── */
+@media(max-width:900px){
+  .topbar{ padding:0 16px; height:48px; }
+  .hero{ padding:16px 16px 14px; }
+  .main{ padding:10px 12px; gap:5px; }
+  footer{ padding:12px 16px; }
+  .kpi-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+  .kpi-main{ grid-column:1/-1; }
+}
+
+/* ── MOBILE (≤600px) ── */
+@media(max-width:600px){
+  html{ font-size:14px; }
+
   /* TOPBAR */
-  .topbar{padding:0 12px;height:44px}
-  .tb-logos svg{height:22px !important}
-  .tb-uol{height:22px !important}
-  .tb-div{height:22px}
-  .tb-project{display:none}
-  .tb-live span:last-child{display:none}
+  .topbar{
+    padding:0 12px;
+    height:50px;
+    position:sticky;
+    top:0;
+    z-index:999;
+  }
+  .tb-logos svg{ height:22px !important; width:auto !important; }
+  .tb-uol{ height:22px !important; }
+  .tb-div{ height:24px; }
+  .tb-project{ display:none; }
+  .tb-live span.tb-live-dot{ width:7px; height:7px; }
+  .tb-live{ padding:3px 8px; font-size:8px; gap:5px; }
 
   /* HERO */
-  .hero{padding:14px 12px 12px}
-  .hero-inner{grid-template-columns:1fr;gap:12px}
-  .hero-title{font-size:16px}
-  .hero-meta{text-align:left;min-width:unset}
-  .hero-meta-val{font-size:11px}
-  .hero-meta-sub{font-size:9px}
-  .hero-eyebrow{font-size:8px}
+  .hero{ padding:14px 12px 12px; }
+  .hero-inner{ grid-template-columns:1fr; gap:10px; }
+  .hero-eyebrow{ font-size:8px; letter-spacing:1.5px; margin-bottom:6px; }
+  .hero-title{ font-size:17px; letter-spacing:-.3px; }
+  .hero-sub{ font-size:9px; }
+  .hero-meta{
+    text-align:left;
+    padding:10px 12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-width:unset;
+  }
+  .hero-meta-lbl{ margin-bottom:0; font-size:7px; }
+  .hero-meta-val{ font-size:11px; }
+  .hero-meta-sub{ margin-top:0; font-size:8px; }
 
   /* KPIs */
-  .kpi-grid{grid-template-columns:1fr 1fr;gap:6px}
-  .kpi-main{grid-column:1/-1}
-  .kpi-val{font-size:22px}
-  .kpi-lbl{font-size:8px}
-  .kpi{padding:10px 12px}
+  .kpi-grid{ grid-template-columns:1fr 1fr; gap:6px; }
+  .kpi-main{ grid-column:1/-1; padding:12px 14px; }
+  .kpi{ padding:10px 12px; }
+  .kpi-val{ font-size:24px; }
+  .kpi-main .kpi-val{ font-size:28px; }
+  .kpi-lbl{ font-size:7px; letter-spacing:1.2px; margin-bottom:6px; }
+  .kpi-sub{ font-size:8px; }
 
-  /* PROGRESS */
-  .progress-bar-wrap{padding:10px 12px}
-  .gp-lbl{font-size:8px;letter-spacing:1px}
-  .pb-pct{font-size:16px;min-width:36px}
+  /* PROGRESS BAR */
+  .progress-bar-wrap{ padding:10px 12px; }
+  .progress-bar{ gap:10px; padding:10px 14px; }
+  .pb-lbl{ font-size:8px; letter-spacing:1px; white-space:nowrap; }
+  #gpPct{ font-size:18px !important; min-width:44px; }
+  #pbDone, #pbProg, #pbTodo{ font-size:8px; }
+  #pbTotal{ display:none; }
 
   /* MAIN */
-  .main{padding:10px 8px;gap:4px}
+  .main{ padding:8px 8px; gap:4px; }
 
-  /* GROUPS */
-  .tg-head{padding:11px 12px}
-  .tg-name{font-size:11px}
-  .tg-cnt{font-size:7px;padding:2px 7px}
+  /* GRUPOS */
+  .tg{ border-radius:8px; }
+  .tg-head{ padding:12px 14px; min-height:48px; }
+  .tg-name{ font-size:12px; letter-spacing:-.2px; }
+  .tg-cnt{ font-size:7px; padding:2px 7px; }
+  .tg-progress{ gap:4px; }
+  .tg-prog-bar{ width:36px; height:3px; }
+  .tg-prog-pct{ font-size:8px; min-width:22px; }
 
-  /* SECTIONS */
-  .ss-head{padding:7px 12px 7px 32px}
-  .ss-label{font-size:7px;letter-spacing:1.5px}
+  /* SEÇÕES */
+  .ss-head{
+    padding:10px 12px 10px 30px;
+    min-height:40px;
+  }
+  .ss-dot{ width:8px; height:8px; }
+  .ss-label{ font-size:8px; letter-spacing:1.5px; }
+  .ss-count{ font-size:8px; padding:2px 7px; }
+  .ss-arrow{ font-size:9px; }
 
-  /* TASK ROWS */
-  .task-row{padding:7px 10px 7px 36px;min-height:30px}
-  .task-name{font-size:10px;color:#111827 !important;font-weight:700 !important}
-  .av{height:18px;font-size:8px;padding:0 5px}
+  /* TASK ROW */
+  .task-row{
+    padding:10px 12px 10px 32px;
+    min-height:42px;
+    gap:6px;
+  }
+  .task-name{
+    font-size:11px !important;
+    color:#111827 !important;
+    font-weight:700 !important;
+    line-height:1.35;
+    white-space:normal !important;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    max-width:none;
+  }
+  .cu-link{
+    font-size:11px !important;
+    color:#111827 !important;
+    font-weight:700 !important;
+    white-space:normal !important;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .task-status-dot{ width:7px; height:7px; flex-shrink:0; }
+  .tr-arrow{ font-size:9px; width:14px; }
+
+  /* AVATARES — só mostrar 1, maior */
+  .av{
+    height:22px;
+    font-size:9px;
+    padding:0 8px;
+    gap:5px;
+  }
+  .av-dot{ width:6px; height:6px; }
+  .task-avatars .av:nth-child(n+2){ display:none; }
+
+  /* SUBTAREFAS */
+  .tr-children{ border-left-width:3px; }
 
   /* FOOTER */
-  footer{padding:10px 12px;flex-direction:column;align-items:flex-start;gap:6px}
-  .ft-l{gap:2px}
-  .ft-brand{font-size:7px}
-  .ft-sync{font-size:8px}
+  footer{
+    padding:12px 12px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+  }
+  .ft-brand{ font-size:8px; letter-spacing:1.5px; }
+  .ft-sync{ font-size:9px; }
+  .ft-badge{ font-size:7px; padding:2px 8px; }
 
-  /* PROGRESS BAR DETAIL */
-  #pbDone, #pbProg, #pbTodo{font-size:8px}
-  #pbTotal{display:none}
-}
-
-@media(max-width:400px){
-  .tb-logos svg{height:18px !important}
-  .tb-uol{height:18px !important}
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .kpi-val{font-size:18px}
-  .tg-r{gap:4px}
-  .tg-cnt:not(:first-child){display:none}
-  .task-name{font-size:9px;color:#111827 !important;font-weight:700 !important}
-  .av{display:none}
-  .task-avatars .av:first-child{display:inline-flex}
+  /* OVERLAY */
+  .ov-box{ padding:24px 28px; min-width:260px; }
+  .ov-msg{ font-size:11px; }
 }
 
-/* ── BADGE STATUS ── */
-.tg-status-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px;white-space:nowrap}
-.badge-complete{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.25)}
-.badge-inprog{background:rgba(217,119,6,.1);color:var(--amber);border:1px solid rgba(217,119,6,.25)}
-.badge-todo{background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0}
-/* ── LINK CLICKUP ── */
-.cu-link{color:inherit;text-decoration:none;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.task-row:hover .cu-link{color:var(--blue-light)}
-/* ── MINI PROGRESS NOS GRUPOS ── */
-.tg-progress{display:flex;align-items:center;gap:5px;flex-shrink:0}
-.tg-prog-bar{width:48px;height:3px;background:#e2e8f0;border-radius:99px;overflow:hidden}
-.tg-prog-fill{height:100%;border-radius:99px;transition:width .8s ease}
-.tg-prog-pct{font-family:var(--mono);font-size:8px;color:var(--text-light);min-width:24px;text-align:right}
-/* ── FOOTER BADGE ── */
-.ft-badge{font-family:var(--mono);font-size:8px;padding:3px 10px;border-radius:20px;background:rgba(21,101,192,.12);color:var(--blue-light);border:1px solid rgba(21,101,192,.2);letter-spacing:1px}
-/* ── ANIMAÇÃO ── */
-@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
-.tg{animation:fadeIn .25s ease forwards;opacity:0}
-.tg:nth-child(1){animation-delay:.04s}.tg:nth-child(2){animation-delay:.08s}
-.tg:nth-child(3){animation-delay:.12s}.tg:nth-child(4){animation-delay:.16s}
-.tg:nth-child(5){animation-delay:.20s}.tg:nth-child(6){animation-delay:.24s}
-.tg:nth-child(7){animation-delay:.28s}.tg:nth-child(8){animation-delay:.32s}
-/* ── SCROLL SUAVE ── */
-html{scroll-behavior:smooth}
-/* ── LIVE BADGE ── */
-.tb-live{background:rgba(34,197,94,.08);padding:4px 10px;border-radius:20px;border:1px solid rgba(34,197,94,.2)}
-/* ── HOVER TASK ── */
-.task-row:hover .task-status-dot{transform:scale(1.3);transition:transform .15s}
-.task-status-dot{transition:transform .15s}
-/* ── GL AVATAR ── */
-.av-gl{background:#558b2f}
+/* ── MOBILE PEQUENO (≤380px) ── */
+@media(max-width:380px){
+  .hero-title{ font-size:15px; }
+  .kpi-val{ font-size:20px; }
+  .kpi-main .kpi-val{ font-size:24px; }
+  .tg-name{ font-size:11px; }
+  .task-name, .cu-link{ font-size:10px !important; }
+  .av{ height:20px; font-size:8px; padding:0 6px; }
+  .tg-cnt:not(.cnt-done):not(.cnt-prog){ display:none; }
+}
 
-/* ── FORÇA CONTRASTE TASKS NÃO INICIADAS ── */
-.ss-todo .task-row .task-name,
-.ss-todo .task-row .cu-link {
-  color: #1e293b !important;
-  font-weight: 700 !important;
-}
-.ss-todo .task-row {
-  background: #f8fafc;
-}
-.ss-todo .task-row:hover {
-  background: #eef2f7 !important;
-}
-/* ── FORÇA CONTRASTE TASKS CONCLUÍDAS ── */
-.ss-done .task-row .task-name,
-.ss-done .task-row .cu-link {
-  color: #64748b !important;
-  font-weight: 500 !important;
-  text-decoration: line-through;
-}
-/* ── FORÇA CONTRASTE TASKS EM ANDAMENTO ── */
-.ss-prog .task-row .task-name,
-.ss-prog .task-row .cu-link {
-  color: #1e293b !important;
-  font-weight: 700 !important;
-}
-/* ── SS-BODY FUNDO VISÍVEL ── */
-.ss-done .ss-body { background: #f1f5f9; }
-.ss-prog .ss-body { background: #fffbf0; }
-.ss-todo .ss-body { background: #f8fafc; }
 </style>
 </head>
 <body>
@@ -373,7 +408,7 @@ html{scroll-behavior:smooth}
 <footer>
   <div class="ft-l">
     <span class="ft-brand">Escritório de Projetos · Binario Cloud</span>
-    <span class="ft-sync" id="ftNote">Última atualização: 13/06/2026 15:57</span>
+    <span class="ft-sync" id="ftNote">Última atualização: 13/06/2026 17:53</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
     <span class="ft-badge">BCP · Edge UOL</span>
