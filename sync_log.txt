@@ -1,0 +1,15 @@
+Token primeiros 10 chars: pk_1180439...
+Token tamanho: 45
+User OK: Wagner Bento Felix
+Fetching: https://api.clickup.com/api/v2/list/901327467073/task?subtasks=true&include_clos
+Status: 200
+Página 0: 100 tarefas
+Fetching: https://api.clickup.com/api/v2/list/901327467073/task?subtasks=true&include_clos
+Status: 200
+Página 1: 86 tarefas
+Total: 186 tarefas
+Traceback (most recent call last):
+  File "/home/runner/work/Projeto-Binario-UOL-Modernizacao-de-Nuvem/Projeto-Binario-UOL-Modernizacao-de-Nuvem/sync.py", line 69, in <module>
+    status = SM.get(task.get("status", "aberto"), "to do")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
