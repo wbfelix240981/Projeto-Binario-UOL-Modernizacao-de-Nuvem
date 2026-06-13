@@ -1,11 +1,8 @@
-import re, json, urllib.request, os, sys, traceback
+import re, json, urllib.request, os, sys
 from datetime import datetime
 
 TOKEN = os.environ["CLICKUP_TOKEN"]
 LIST_ID = "901327467073"
-
-print(f"Token primeiros 10 chars: {TOKEN[:10]}...", flush=True)
-print(f"Token tamanho: {len(TOKEN)}", flush=True)
 
 SM = {
     "fechado":            "complete",
@@ -18,28 +15,9 @@ SM = {
 def fetch(page):
     url = (f"https://api.clickup.com/api/v2/list/{LIST_ID}/task"
            f"?subtasks=true&include_closed=true&order_by=created&page={page}")
-    print(f"Fetching: {url[:80]}", flush=True)
-    req = urllib.request.Request(url, headers={
-        "Authorization": TOKEN,
-        "Content-Type": "application/json"
-    })
+    req = urllib.request.Request(url, headers={"Authorization": TOKEN})
     with urllib.request.urlopen(req, timeout=30) as r:
-        print(f"Status: {r.status}", flush=True)
         return json.loads(r.read())
-
-# Testar conexão primeiro
-try:
-    test_req = urllib.request.Request(
-        "https://api.clickup.com/api/v2/user",
-        headers={"Authorization": TOKEN}
-    )
-    with urllib.request.urlopen(test_req, timeout=10) as r:
-        user = json.loads(r.read())
-        print(f"User OK: {user['user']['username']}", flush=True)
-except Exception as e:
-    print(f"ERRO USER: {e}", flush=True)
-    traceback.print_exc()
-    sys.exit(1)
 
 # Buscar todas as páginas
 all_tasks = []
@@ -53,9 +31,7 @@ for page in range(5):
             break
     except Exception as e:
         print(f"Erro página {page}: {e}", flush=True)
-        traceback.print_exc()
-        if page == 0:
-            sys.exit(1)
+        if page == 0: sys.exit(1)
         break
 
 print(f"Total: {len(all_tasks)} tarefas", flush=True)
@@ -65,10 +41,16 @@ with open("painel.html", "r", encoding="utf-8") as f:
 
 updated = 0
 for task in all_tasks:
-    tid    = task["id"]
-    status = SM.get(task.get("status", "aberto"), "to do")
-    names  = [a.get("username","") for a in task.get("assignees", [])]
-    a_str  = ",".join(f'"{n}"' for n in names if n)
+    tid = task["id"]
+
+    # status pode ser string ou dict {"status": "...", "color": "..."}
+    raw_status = task.get("status", "aberto")
+    if isinstance(raw_status, dict):
+        raw_status = raw_status.get("status", "aberto")
+    status = SM.get(raw_status.lower(), "to do")
+
+    names = [a.get("username", "") for a in task.get("assignees", [])]
+    a_str = ",".join(f'"{n}"' for n in names if n)
 
     pat = f'"{tid}"' + r':\{"n":"([^"]+)","s":"([^"]+)","p":([^,]+),"a":\[([^\]]*)\]'
     m   = re.search(pat, html)
