@@ -1,15 +1,13 @@
-name: Sync ClickUp → Painel BCP
+name: Sync ClickUp → Painel
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
-  workflow_dispatch:
+    - cron: '*/5 * * * *'   # a cada 5 minutos
+  workflow_dispatch:          # permite rodar manualmente também
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout
@@ -20,27 +18,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Sync ClickUp → painel.html
+      - name: Sync ClickUp e gerar painel
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
-        run: |
-          python sync.py 2>&1 | tee sync_log.txt
-          exit ${PIPESTATUS[0]}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python sync.py
 
-      - name: Salvar log de erro se falhou
-        if: failure()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sync_log.txt
-          git diff --staged --quiet || git commit -m "debug: sync log $(date '+%d/%m/%Y %H:%M')"
-          git push
-
-      - name: Push se houve mudanças
-        if: success()
+      - name: Commit e Push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add painel.html
-          git diff --staged --quiet || git commit -m "sync: ClickUp $(date '+%d/%m/%Y %H:%M')"
+          git diff --staged --quiet || git commit -m "sync: atualização automática ClickUp $(date +'%d/%m/%Y %H:%M')"
           git push
