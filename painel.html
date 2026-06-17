@@ -475,7 +475,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 <footer>
   <div class="ft-l">
     <span class="ft-brand">Escritório de Projetos · Binario Cloud</span>
-    <span class="ft-sync" id="ftNote">Última atualização: 16/06/2026 20:46 BRT</span>
+    <span class="ft-sync" id="ftNote">Última atualização: 16/06/2026 21:10 BRT</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
     <span class="ft-badge">BCP · Edge UOL</span>
@@ -789,15 +789,33 @@ function taskRow(id, depth) {
 
 // ── Separar descendentes por status (ordem fixa: complete → in progress → to do) ──
 function descByStatus(parentId) {
-  const desc = allDescendants(parentId);
-  // Garante ordem estável por status
+  // Retorna apenas filhos DIRETOS que têm o status OU que contêm descendentes com esse status
+  // Isso evita que tarefas apareçam duplicadas (pai e filho listados separadamente)
+  const directKids = kids(parentId);
+
+  function hasStatus(id, status) {
+    if (TASKS[id].s === status) return true;
+    return allDescendants(id).some(did => TASKS[did].s === status);
+  }
+
+  function countStatus(id, status) {
+    const all = [id, ...allDescendants(id)];
+    return all.filter(did => TASKS[did].s === status).length;
+  }
+
+  // Filhos diretos que têm ou contêm o status dado
+  const complete = directKids.filter(id => hasStatus(id, 'complete'));
+  const inprog   = directKids.filter(id => !hasStatus(id, 'complete') || hasStatus(id, 'in progress') || hasStatus(id, 'to do'))
+                              .filter(id => hasStatus(id, 'in progress'));
+  const todo     = directKids.filter(id => hasStatus(id, 'to do') && !hasStatus(id, 'complete') && !hasStatus(id, 'in progress'));
+
+  // Ordenar por status predominante
   const order = {'complete':0,'in progress':1,'to do':2};
-  desc.sort((a,b) => (order[TASKS[a]?.s]??2) - (order[TASKS[b]?.s]??2));
-  return {
-    complete: desc.filter(id => TASKS[id].s === 'complete'),
-    inprog:   desc.filter(id => TASKS[id].s === 'in progress'),
-    todo:     desc.filter(id => TASKS[id].s === 'to do'),
-  };
+  complete.sort((a,b) => (order[TASKS[a]?.s]??2) - (order[TASKS[b]?.s]??2));
+  inprog.sort((a,b) => (order[TASKS[a]?.s]??2) - (order[TASKS[b]?.s]??2));
+  todo.sort((a,b) => (order[TASKS[a]?.s]??2) - (order[TASKS[b]?.s]??2));
+
+  return { complete, inprog, todo };
 }
 
 // ── Status bar class para o grupo pai ──
