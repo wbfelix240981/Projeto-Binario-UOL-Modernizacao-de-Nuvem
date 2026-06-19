@@ -85,16 +85,16 @@ parent = {
 }
 
 def fetch_tasks(page):
-    url = f"https://api.clickup.com/api/v2/list/{LIST_ID}/task?include_closed=true&subtasks=true&page={page}&order_by=created"
+    url = "https://api.clickup.com/api/v2/list/{}/task?include_closed=true&subtasks=true&page={}&order_by=created".format(LIST_ID, page)
     req = urllib.request.Request(url, headers={"Authorization": CLICKUP_TOKEN})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             data = json.loads(r.read())
             tasks = data.get("tasks", [])
-            print(f"Pagina {page}: {len(tasks)} tarefas")
+            print("Pagina {}: {} tarefas".format(page, len(tasks)))
             return tasks
     except Exception as e:
-        print(f"ERRO pagina {page}: {e}")
+        print("ERRO pagina {}: {}".format(page, e))
         raise
 
 all_tasks = {}
@@ -106,43 +106,49 @@ for page in range(3):
         status_raw = t.get("status", "aberto")
         s = SM.get(status_raw, "to do")
         if status_raw not in SM:
-            print(f"AVISO status desconhecido: {status_raw} em {t['id']} - {t['name']}")
+            print("AVISO status desconhecido: {} em {} - {}".format(status_raw, t["id"], t["name"]))
         all_tasks[t["id"]] = {
             "n": t["name"],
             "s": s,
             "a": [a["username"] for a in t.get("assignees", [])]
         }
 
-print(f"Total: {len(all_tasks)} tarefas")
+print("Total: {} tarefas".format(len(all_tasks)))
+if len(all_tasks) == 0:
+    print("ERRO: Nenhuma tarefa coletada!")
+    sys.exit(1)
 
 lines = []
 for tid, data in all_tasks.items():
     par = parent.get(tid, "null")
-    p = f'\"{par}\"' if par != "null" else "null"
-    nome_safe = data["n"].replace('"', '\\\"\')
-    a = ','.join([f'\"{x}\"' for x in data["a"]])
-    lines.append(f'\"{tid}\":{{\n:"{nome_safe}\",\"s\":"{data[\"s\"]}\",\"p\":{p},\"a\":[{a}]}}')
+    p = '"{}"'.format(par) if par != "null" else "null"
+    nome_safe = data["n"].replace('"', '\\"')
+    a = ",".join(['"{}"'.format(x) for x in data["a"]])
+    lines.append('"{}": {{"n":"{}","s":"{}","p":{},"a":[{}]}}'.format(
+        tid, nome_safe, data["s"], p, a))
 
 tasks_js = "const TASKS = {\n" + ",\n".join(lines) + "\n}"
 
 with open("painel.html", "r") as f:
     html = f.read()
 
-s = html.find("const TASKS = {")
-e = html.find("\nconst TOP_ORDER", s)
-if s != -1 and e != -1:
-    html = html[:s] + tasks_js + html[e:]
+s_idx = html.find("const TASKS = {")
+e_idx = html.find("\nconst TOP_ORDER", s_idx)
+if s_idx != -1 and e_idx != -1:
+    html = html[:s_idx] + tasks_js + html[e_idx:]
+else:
+    print("AVISO: nao encontrou bloco TASKS no painel.html")
 
 html = re.sub(r'const TOP_ORDER = \[.*?\];',
     'const TOP_ORDER = ["86ahx8exe","86ahx9315","86ahx8c64","86ahx948g","86ahx73pc","86ahx750d","86ahx7515","86aj2p7gb","86ahxbff7"];', html)
 html = re.sub(r'const PROGRESS_GROUPS = (?:new Set\()?\[.*?\]\)?;',
     'const PROGRESS_GROUPS = new Set(["86ahx8c64","86ahx948g","86ahx73pc","86ahx750d","86ahx7515","86aj2p7gb"]);', html)
 
-now = datetime.now(BRT).strftime("%d/%m/%Y %H:%M")
-html = re.sub(r'<b id="syncDate">[^<]*</b>', f'<b id="syncDate">{now}</b>', html)
-html = re.sub(r'id="ftNote">[^<]+', f'id="ftNote">Atualizado automaticamente: {now} BRT', html)
+now_str = datetime.now(BRT).strftime("%d/%m/%Y %H:%M")
+html = re.sub(r'<b id="syncDate">[^<]*</b>', '<b id="syncDate">{}</b>'.format(now_str), html)
+html = re.sub(r'id="ftNote">[^<]+', 'id="ftNote">Auto-sync: {} BRT'.format(now_str), html)
 
 with open("painel.html", "w") as f:
     f.write(html)
 
-print(f"painel.html atualizado — {now} BRT")
+print("painel.html atualizado - {} BRT".format(now_str))
