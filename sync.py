@@ -1,10 +1,14 @@
-import json, re, urllib.request, os
-from datetime import datetime
+import json, re, urllib.request, os, sys
+from datetime import datetime, timezone, timedelta
 
-CLICKUP_TOKEN = os.environ["CLICKUP_TOKEN"]
+CLICKUP_TOKEN = os.environ.get("CLICKUP_TOKEN", "")
+if not CLICKUP_TOKEN:
+    print("ERRO: CLICKUP_TOKEN nao encontrado!")
+    sys.exit(1)
+
 LIST_ID = "901327467073"
+BRT = timezone(timedelta(hours=-3))
 
-# Status mapping — revisando = complete (decisão do projeto)
 SM = {
     "fechado": "complete",
     "entregue": "complete",
@@ -13,7 +17,6 @@ SM = {
     "aberto": "to do"
 }
 
-# Hierarquia pai completa e atualizada (198 tarefas)
 parent = {
     "86ahx8exe":"null","86ahx9315":"null","86ahx8c64":"null","86ahx948g":"null",
     "86ahx73pc":"null","86ahx750d":"null","86ahx7515":"null","86aj2p7gb":"null","86ahxbff7":"null",
@@ -25,7 +28,6 @@ parent = {
     "86ahx9399":"86ahx8c64","86ahx93bm":"86ahx9399","86ahx93cr":"86ahx9399",
     "86ahx94tb":"86ahx948g","86ahx95ew":"86ahx948g","86ahx9cx5":"86ahx95ew","86ahx97ux":"86ahx95ew",
     "86ahx9jfb":"86ahx948g","86ahx9r7f":"86ahx948g",
-    # Novas tarefas Ajustes BCP
     "86aj3mnd7":"86ahx948g","86aj3mj94":"86ahx948g","86aj3mfju":"86ahx948g",
     "86aj3rxnm":"86ahx948g","86aj3qkud":"86ahx948g","86aj3qg6y":"86ahx948g",
     "86aj3w78n":"86ahx948g","86aj3wq76":"86ahx948g","86aj402pa":"86ahx948g",
@@ -87,63 +89,60 @@ def fetch_tasks(page):
     req = urllib.request.Request(url, headers={"Authorization": CLICKUP_TOKEN})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
-            return json.loads(r.read())["tasks"]
+            data = json.loads(r.read())
+            tasks = data.get("tasks", [])
+            print(f"Pagina {page}: {len(tasks)} tarefas")
+            return tasks
     except Exception as e:
-        print(f"Erro na página {page}: {e}")
-        return []
+        print(f"ERRO pagina {page}: {e}")
+        raise
 
-# Buscar todas as tarefas
 all_tasks = {}
 for page in range(3):
     tasks = fetch_tasks(page)
     if not tasks:
         break
     for t in tasks:
+        status_raw = t.get("status", "aberto")
+        s = SM.get(status_raw, "to do")
+        if status_raw not in SM:
+            print(f"AVISO status desconhecido: {status_raw} em {t['id']} - {t['name']}")
         all_tasks[t["id"]] = {
             "n": t["name"],
-            "s": SM.get(t["status"], "to do"),
+            "s": s,
             "a": [a["username"] for a in t.get("assignees", [])]
         }
 
-print(f"✅ {len(all_tasks)} tarefas coletadas do ClickUp")
+print(f"Total: {len(all_tasks)} tarefas")
 
-# Construir TASKS JS
 lines = []
 for tid, data in all_tasks.items():
     par = parent.get(tid, "null")
-    p = f'"{par}"' if par != "null" else "null"
-    nome_safe = data["n"].replace('"', '\\"')
-    a = ','.join([f'"{x}"' for x in data["a"]])
-    lines.append(f'"{tid}":{{"n":"{nome_safe}","s":"{data["s"]}","p":{p},"a":[{a}]}}')
+    p = f'\"{par}\"' if par != "null" else "null"
+    nome_safe = data["n"].replace('"', '\\\"\')
+    a = ','.join([f'\"{x}\"' for x in data["a"]])
+    lines.append(f'\"{tid}\":{{\n:"{nome_safe}\",\"s\":"{data[\"s\"]}\",\"p\":{p},\"a\":[{a}]}}')
 
 tasks_js = "const TASKS = {\n" + ",\n".join(lines) + "\n}"
 
-# Ler painel
 with open("painel.html", "r") as f:
     html = f.read()
 
-# Atualizar TASKS
 s = html.find("const TASKS = {")
 e = html.find("\nconst TOP_ORDER", s)
-if s == -1 or e == -1:
-    s = html.find("const TASKS = {}")
-    html = html[:s] + tasks_js + html[s+len("const TASKS = {}"):]
-else:
+if s != -1 and e != -1:
     html = html[:s] + tasks_js + html[e:]
 
-# TOP_ORDER e PROGRESS_GROUPS atualizados
 html = re.sub(r'const TOP_ORDER = \[.*?\];',
     'const TOP_ORDER = ["86ahx8exe","86ahx9315","86ahx8c64","86ahx948g","86ahx73pc","86ahx750d","86ahx7515","86aj2p7gb","86ahxbff7"];', html)
 html = re.sub(r'const PROGRESS_GROUPS = (?:new Set\()?\[.*?\]\)?;',
     'const PROGRESS_GROUPS = new Set(["86ahx8c64","86ahx948g","86ahx73pc","86ahx750d","86ahx7515","86aj2p7gb"]);', html)
 
-from datetime import timezone, timedelta
-BRT = timezone(timedelta(hours=-3))
 now = datetime.now(BRT).strftime("%d/%m/%Y %H:%M")
 html = re.sub(r'<b id="syncDate">[^<]*</b>', f'<b id="syncDate">{now}</b>', html)
-html = re.sub(r'id="ftNote">[^<]+', f'id="ftNote">Última atualização: {now} BRT', html)
+html = re.sub(r'id="ftNote">[^<]+', f'id="ftNote">Atualizado automaticamente: {now} BRT', html)
 
 with open("painel.html", "w") as f:
     f.write(html)
 
-print(f"✅ painel.html atualizado — {now} BRT")
+print(f"painel.html atualizado — {now} BRT")
