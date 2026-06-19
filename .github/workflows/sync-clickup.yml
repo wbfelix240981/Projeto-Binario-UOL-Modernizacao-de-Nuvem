@@ -29,6 +29,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add painel.html
+          git add painel.html index.html
           git diff --staged --quiet || git commit -m "sync: auto $(date +'%d/%m/%Y %H:%M')"
           git push
