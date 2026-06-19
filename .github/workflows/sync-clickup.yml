@@ -2,12 +2,14 @@ name: Sync ClickUp → Painel
 
 on:
   schedule:
-    - cron: '*/5 * * * *'   # a cada 5 minutos
-  workflow_dispatch:          # permite rodar manualmente também
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -18,10 +20,32 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Testar token ClickUp
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+        run: |
+          echo "Token length: ${#CLICKUP_TOKEN}"
+          python3 -c "
+import urllib.request, json, os
+token = os.environ.get('CLICKUP_TOKEN', '')
+print('Token presente:', len(token) > 0)
+print('Token inicio:', token[:10] if token else 'VAZIO')
+req = urllib.request.Request(
+    'https://api.clickup.com/api/v2/list/901327467073/task?page=0&subtasks=true&include_closed=true',
+    headers={'Authorization': token}
+)
+try:
+    with urllib.request.urlopen(req, timeout=30) as r:
+        data = json.loads(r.read())
+        print('Tarefas:', len(data.get('tasks', [])))
+except Exception as e:
+    print('ERRO:', e)
+    import sys; sys.exit(1)
+"
+
       - name: Sync ClickUp e gerar painel
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python sync.py
 
       - name: Commit e Push
@@ -29,5 +53,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add painel.html
-          git diff --staged --quiet || git commit -m "sync: atualização automática ClickUp $(date +'%d/%m/%Y %H:%M')"
+          git diff --staged --quiet || git commit -m "sync: auto $(date +'%d/%m/%Y %H:%M')"
           git push
