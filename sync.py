@@ -152,4 +152,33 @@ html = re.sub(r'id="ftNote">[^<]+', 'id="ftNote">Auto-sync: {} BRT'.format(now_s
 with open("painel.html", "w") as f:
     f.write(html)
 
-print("painel.html atualizado - {} BRT".format(now_str))
+# Copiar para index.html tambem
+import shutil
+shutil.copy("painel.html", "index.html")
+
+# Calcular e exibir o % atual
+import subprocess
+result = subprocess.run(["node", "-e", """
+const fs = require('fs');
+const html = fs.readFileSync('painel.html', 'utf8');
+const tasks_match = html.match(/const TASKS = \{([\s\S]*?)\}\nconst TOP_ORDER/);
+const pg_match = html.match(/const PROGRESS_GROUPS = new Set\(\[([^\]]+)\]\)/);
+if (!tasks_match || !pg_match) { console.log('0|0|0|0'); process.exit(0); }
+eval(html.match(/(const TASKS = \{[\s\S]*?\}\nconst TOP_ORDER[^;]+;\nconst PROGRESS_GROUPS[^;]+;)/)[1]);
+function inScope(id) {
+  let c = id; const v = new Set();
+  while (c) { if (v.has(c)) break; v.add(c); if (PROGRESS_GROUPS.has(c)) return true;
+    const t = TASKS[c]; c = t ? t.p : null; if (!c || c === 'null') break; }
+  return false;
+}
+let t=0,d=0,ip=0,td=0;
+Object.entries(TASKS).forEach(([id,x])=>{ if(inScope(id)){t++;if(x.s==='complete')d++;else if(x.s==='in progress')ip++;else td++;} });
+console.log((d/t*100).toFixed(1).replace('.',',')+"|"+d+"|"+ip+"|"+td+"|"+t);
+"""], capture_output=True, text=True)
+p = result.stdout.strip().split('|')
+if len(p) >= 5:
+    pct, d_d, ip_d, td_d, t_d = p[0], p[1], p[2], p[3], p[4]
+    print("Progresso: {}% | Concluidas: {}/{} | Em Andamento: {} | Abertas: {}".format(pct, d_d, t_d, ip_d, td_d))
+
+total_tasks = len(all_tasks)
+print("painel.html e index.html atualizados - {} BRT ({} tarefas)".format(now_str, total_tasks))
