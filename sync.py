@@ -103,7 +103,8 @@ for page in range(3):
     if not tasks:
         break
     for t in tasks:
-        status_raw = t.get("status", "aberto")
+        status_obj = t.get("status", "aberto")
+        status_raw = status_obj.get("status", "aberto") if isinstance(status_obj, dict) else str(status_obj)
         s = SM.get(status_raw, "to do")
         if status_raw not in SM:
             print("AVISO status desconhecido: {} em {} - {}".format(status_raw, t["id"], t["name"]))
