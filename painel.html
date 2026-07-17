@@ -476,7 +476,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 <footer>
   <div class="ft-l">
     <span class="ft-brand">Escritório de Projetos · Binario Cloud</span>
-    <span class="ft-sync" id="ftNote">Última atualização: 16/07/2026 17:46 BRT</span>
+    <span class="ft-sync" id="ftNote">Última atualização: 17/07/2026 07:21 BRT</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
     <span class="ft-badge">BCP · Edge UOL</span>
@@ -502,9 +502,25 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 //  Status mapeados: complete | in progress | to do
 // ═══════════════════════════════════════════════════
 const TASKS = {
+"86ajjuhmp":{"n":"Organização na listagem de Flavor's do LB","s":"to do","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]},
+"86ajfq8bp":{"n":"Databases PostgreSQL não são criadas via Dashboard Skyline","s":"complete","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]},
+"86ajfj2dt":{"n":"Adição de novos flavor's em Database","s":"in progress","p":null,"a":["Joab de Araújo Silva"]},
+"86ajendky":{"n":"Adicionar Policies de QoS do routers via dashboard","s":"complete","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]},
+"86ajenar8":{"n":"Dasabilitar restrição de visualização dos templates publicos","s":"in progress","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]},
+"86ajemmah":{"n":"Visualização do External Network para Member","s":"complete","p":null,"a":["Gabriel Sezana"]},
+"86ajekjkf":{"n":"Documento de Plano de instalação de novas Storages","s":"complete","p":null,"a":["Luiz Fernando Justino Silva"]},
+"86aje28y3":{"n":"Criação de credencial Admin do projeto","s":"in progress","p":null,"a":["Guilherme Lopes"]},
+"86ajb4n55":{"n":"Correção de leitura da observabilidade","s":"complete","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]},
+"86ajb4mr1":{"n":"Correção de erros no painel com usuário member","s":"complete","p":null,"a":[]},
+"86ajb4m3n":{"n":"Configuração do Flavor de Load Balancer.","s":"complete","p":null,"a":["Joab de Araújo Silva"]},
+"86ajb4kx9":{"n":"Remoção da opção OVN no Load Balancer","s":"complete","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]},
+"86ajb4kk1":{"n":"Correção de privilégio para usuário Member","s":"complete","p":null,"a":["Guilherme Lopes"]},
+"86ajb4jua":{"n":"Correção da taxa de IOPS dos volumes","s":"complete","p":null,"a":["Joab de Araújo Silva"]},
+"86aj81wh8":{"n":"Implementação dos novos flavors.","s":"complete","p":null,"a":["Vinicius Afonso Oliveira"]},
+"86aj81vdr":{"n":"Ajuste do MFA","s":"complete","p":null,"a":["Guilherme Lopes"]},
 "86aj4ubp6":{"n":"Configuração do DNS","s":"complete","p":"86ahxbff7","a":["Vitor Ribeiro"]},
-"86aj3wq76":{"n":"Criação de campo no cadastro de imagem - Perfil cliente","s":"complete","p":"86ahx948g","a":[]},
 "86aj402pa":{"n":"Criação de instancia - nome do usuario default da imagem em branco","s":"complete","p":"86ahx948g","a":[]},
+"86aj3wq76":{"n":"Criação de campo no cadastro de imagem - Perfil cliente","s":"complete","p":"86ahx948g","a":[]},
 "86aj3w78n":{"n":"Ajuste - Pagina de Criação de instancia - Não criar um novo disco do sistema","s":"complete","p":"86ahx948g","a":[]},
 "86aj3rxnm":{"n":"Ajuste Tela - Compute-instancias - Remover exibição colunas","s":"complete","p":"86ahx948g","a":[]},
 "86aj3qkud":{"n":"Erro - Login BCP","s":"complete","p":"86ahx948g","a":["Guilherme Lopes"]},
@@ -512,7 +528,7 @@ const TASKS = {
 "86aj3mnd7":{"n":"Erro na criação de Instancia - Com customização de Script","s":"complete","p":"86ahx948g","a":["Guilherme Lopes"]},
 "86aj3mj94":{"n":"Tela de criação de Flavor - Ordenar Disco de Sistema -","s":"complete","p":"86ahx948g","a":["Guilherme Lopes"]},
 "86aj3mfju":{"n":"Home - Opção de ocultar Visão de cota","s":"complete","p":"86ahx948g","a":["Guilherme Lopes"]},
-"86aj2u1m1":{"n":"Customização do dashboard","s":"complete","p":"86aj2p7gb","a":["Joab de Araújo Silva","Guilherme Lopes"]},
+"86aj2u1m1":{"n":"Customização do dashboard","s":"complete","p":"86aj2p7gb","a":["Guilherme Lopes","Joab de Araújo Silva"]},
 "86aj2pc7t":{"n":"Observabilidade","s":"complete","p":"86ahx8nun","a":["Matheus do Rosario de Almeida"]},
 "86aj2p7gb":{"n":"Subir BCP em Produção.","s":"complete","p":null,"a":["Joab de Araújo Silva"]},
 "86aj0rzz6":{"n":"Aguardando Informação Edge UOL","s":"complete","p":"86ahx91xf","a":["Diogo Lerison"]},
@@ -686,34 +702,21 @@ const TASKS = {
 "86ahx7vc2":{"n":"Configuração do perfil mclock","s":"complete","p":"86ahzgvc0","a":["Luiz Fernando Justino Silva"]},
 "86ahx7v6d":{"n":"Configuração do mclock dos discos","s":"complete","p":"86ahzgvc0","a":["Luiz Fernando Justino Silva"]},
 "86ahx7uu8":{"n":"Criação das Pools","s":"complete","p":"86ahx7r2a","a":["Luiz Fernando Justino Silva"]},
-"86ahx7ubv":{"n":"Instalação dos pacotes do ceph/cephadm nos hosts fisicos","s":"complete","p":"86ahx7r2a","a":["Luiz Fernando Justino Silva"]},
-"86ahx7tmg":{"n":"Configuração dos Hosts fisicos","s":"complete","p":"86ahx7r2a","a":["Luiz Fernando Justino Silva"]},
-"86ahx7ru4":{"n":"Computes","s":"complete","p":"86ahx7rpe","a":["Joab de Araújo Silva"]},
-"86ahx7rpe":{"n":"Formatação das máquinas antigas","s":"complete","p":"86ahx758f","a":["Joab de Araújo Silva"]},
-"86ahx7rnw":{"n":"Instalação dos pacotes do ceph/cephadm","s":"complete","p":"86ahx7rfu","a":["Luiz Fernando Justino Silva"]},
-"86ahx7rgd":{"n":"Configuração da vm tb-ecos-a-ceph-mon01","s":"complete","p":"86ahx7rfu","a":["Luiz Fernando Justino Silva"]},
-"86ahx7rfu":{"n":"Configuração das maquinas virtuais","s":"complete","p":"86ahx7r2a","a":["Luiz Fernando Justino Silva"]},
-"86ahx7r4a":{"n":"Openstack - Dia 1","s":"complete","p":"86ahx750d","a":[]},
-"86ahx7r2a":{"n":"Ceph - Dia 1","s":"complete","p":"86ahx750d","a":["Luiz Fernando Justino Silva"]},
-"86ahx75pt":{"n":"Criação das Maquinas Virtuais nos hosts de controllers","s":"complete","p":"86ahzgkpu","a":["Joab de Araújo Silva"]},
-"86ahx75gf":{"n":"Instalação dos pacotes necessarios nos hosts fisicos","s":"complete","p":"86ahzgkpu","a":["Leonardo Gomes Jorge Gonçalez"]},
-"86ahx758f":{"n":"Formatação dos hosts fisicos","s":"complete","p":"86ahx73pc","a":["Joab de Araújo Silva"]},
-"86ahx7515":{"n":"Fase 03 - Validação","s":"complete","p":null,"a":["Diogo Lerison"]},
-"86ahx750d":{"n":"Fase 02 - Implementação","s":"complete","p":null,"a":["Diogo Lerison"]},
 "86ahx73pc":{"n":"Fase 01 - Formatação","s":"complete","p":null,"a":["Diogo Lerison"]},
-"86aj81wh8":{"n":"Implementação dos novos flavors.","s":"complete","p":null,"a":["Vinicius Afonso Oliveira"]},
-"86aj81vdr":{"n":"Ajuste do MFA","s":"complete","p":null,"a":["Guilherme Lopes"]},
-"86ajb4jua":{"n":"Correção da taxa de IOPS dos volumes","s":"complete","p":null,"a":["Joab de Araújo Silva"]},
-"86ajb4kk1":{"n":"Correção de privilégio para usuário Member","s":"complete","p":null,"a":["Guilherme Lopes"]},
-"86ajb4kx9":{"n":"Remoção da opção OVN no Load Balancer","s":"complete","p":null,"a":["Joab de Araújo Silva"]},
-"86ajb4m3n":{"n":"Configuração do Flavor de Load Balancer.","s":"complete","p":null,"a":["Joab de Araújo Silva"]},
-"86ajb4mbz":{"n":"Correção de erros no painel com usuário member","s":"to do","p":null,"a":[]},
-"86ajb4mr1":{"n":"Correção de erros no painel com usuário member","s":"complete","p":null,"a":[]},
-"86ajb4n55":{"n":"Correção de leitura da observabilidade","s":"complete","p":null,"a":[]},
-"86aje28y3":{"n":"Criação de credencial Admin do projeto","s":"in progress","p":null,"a":["Guilherme Lopes"]},
-"86ajfj2dt":{"n":"Adição de novos flavor's em Database","s":"in progress","p":null,"a":["Joab de Araújo Silva"]},
-"86ajfq8bp":{"n":"Databases PostgreSQL não são criadas via Dashboard Skyline","s":"complete","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]},
-"86ajjuhmp":{"n":"Organização na listagem de Flavor's do LB","s":"to do","p":null,"a":["Guilherme Lopes"]}
+"86ahx750d":{"n":"Fase 02 - Implementação","s":"complete","p":null,"a":["Diogo Lerison"]},
+"86ahx7515":{"n":"Fase 03 - Validação","s":"complete","p":null,"a":["Diogo Lerison"]},
+"86ahx758f":{"n":"Formatação dos hosts fisicos","s":"complete","p":"86ahx73pc","a":["Joab de Araújo Silva"]},
+"86ahx7r2a":{"n":"Ceph - Dia 1","s":"complete","p":"86ahx750d","a":["Luiz Fernando Justino Silva"]},
+"86ahx7r4a":{"n":"Openstack - Dia 1","s":"complete","p":"86ahx750d","a":[]},
+"86ahx7rfu":{"n":"Configuração das maquinas virtuais","s":"complete","p":"86ahx7r2a","a":["Luiz Fernando Justino Silva"]},
+"86ahx7rpe":{"n":"Formatação das máquinas antigas","s":"complete","p":"86ahx758f","a":["Joab de Araújo Silva"]},
+"86ahx7rgd":{"n":"Configuração da vm tb-ecos-a-ceph-mon01","s":"complete","p":"86ahx7rfu","a":["Luiz Fernando Justino Silva"]},
+"86ahx7rnw":{"n":"Instalação dos pacotes do ceph/cephadm","s":"complete","p":"86ahx7rfu","a":["Luiz Fernando Justino Silva"]},
+"86ahx7ru4":{"n":"Computes","s":"complete","p":"86ahx7rpe","a":["Joab de Araújo Silva"]},
+"86ahx7tmg":{"n":"Configuração dos Hosts fisicos","s":"complete","p":"86ahx7r2a","a":["Luiz Fernando Justino Silva"]},
+"86ahx7ubv":{"n":"Instalação dos pacotes do ceph/cephadm nos hosts fisicos","s":"complete","p":"86ahx7r2a","a":["Luiz Fernando Justino Silva"]},
+"86ahx75gf":{"n":"Instalação dos pacotes necessarios nos hosts fisicos","s":"complete","p":"86ahzgkpu","a":["Leonardo Gomes Jorge Gonçalez"]},
+"86ahx75pt":{"n":"Criação das Maquinas Virtuais nos hosts de controllers","s":"complete","p":"86ahzgkpu","a":["Joab de Araújo Silva"]}
 }
 const TOP_ORDER = ["86ahx8exe","86ahx9315","86ahx8c64","86ahx948g","86ahx73pc","86ahx750d","86ahx7515","86aj2p7gb","86aj81wh8","86ajb4jua","86ajb4mr1","86ajb4kk1","86ajb4n55","86ajb4kx9","86ajemmah","86ajendky","86ajekjkf","86aj81vdr","86ajfq8bp","86ajb4m3n","86ajenar8","86aje28y3","86ajfj2dt","86ajjuhmp","86ahxbff7"];
 const LIST_ID = "901327467073";
