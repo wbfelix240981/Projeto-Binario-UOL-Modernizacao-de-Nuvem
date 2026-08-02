@@ -59,7 +59,7 @@ body{font-family:var(--font);background:var(--bg);color:#fff;min-height:100vh;-w
 .tb-r{display:flex;align-items:center;gap:12px}
 .tb-project{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase}
 .tb-live{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;color:var(--green-light);letter-spacing:1px;text-transform:uppercase}
-.tb-live-dot{width:6px;height:6px;border-radius:50%;background:var(--green-light);box-shadow:0 0 6px var(--green-light);animation:pulse 2s infinite}
+.tb-live-dot{width:6px;height:6px;border-radius:50%;background:rgba(100,180,255,.8);animation:none}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* ── HERO ── */
@@ -426,7 +426,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
   </div>
   <div class="tb-r">
     <span class="tb-project">Modernização Nuvem Privada · BCP</span>
-    <div class="tb-live"><span class="tb-live-dot"></span>Ao Vivo</div>
+    <div class="tb-live"><span class="tb-live-dot"></span>Atualizado: <span id="lastUpdate">02/08/2026 12:02</span></div>
   </div>
 </div>
 
@@ -489,7 +489,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 <footer>
   <div class="ft-l">
     <span class="ft-brand">Escritório de Projetos · Binario Cloud</span>
-    <span class="ft-sync" id="ftNote">Última atualização: 01/08/2026 08:29 BRT</span>
+    <span class="ft-sync" id="ftNote">Última atualização: 02/08/2026 12:02 BRT</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
     <span class="ft-badge">BCP · Edge UOL</span>
@@ -1110,6 +1110,15 @@ renderAll();
 
 
 
+</script>
+
+<script>
+// Atualizar lastUpdate com mesmo valor de syncDate
+(function(){
+  var sd = document.getElementById('syncDate');
+  var lu = document.getElementById('lastUpdate');
+  if(sd && lu) lu.textContent = sd.textContent;
+})();
 </script>
 </body>
 </html>
