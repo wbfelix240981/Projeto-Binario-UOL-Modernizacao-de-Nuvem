@@ -411,6 +411,20 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
   .task-name, a.cu-link { font-size: 11px !important; },
 "86ajendky":{"n":"Adicionar Policies de QoS do routers via dashboard","s":"complete","p":null,"a":["Guilherme Lopes","Gabriel Sezana"]}
 
+
+/* ── LOGIN WALL ── */
+#loginWall{display:none;position:fixed;inset:0;background:rgba(10,15,30,.96);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+#loginWall.show{display:flex}
+.lw-box{background:var(--surface,#0f1623);border:1px solid var(--blue,#2563eb);border-radius:12px;padding:40px 48px;display:flex;flex-direction:column;align-items:center;gap:18px;min-width:340px}
+.lw-logo{font-family:var(--mono,'monospace');font-size:13px;color:var(--blue,#2563eb);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.lw-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.lw-input{width:100%;padding:10px 14px;background:#1a2235;border:1px solid #2d3a52;border-radius:8px;color:#fff;font-family:var(--mono,'monospace');font-size:13px;outline:none;box-sizing:border-box}
+.lw-input:focus{border-color:var(--blue,#2563eb)}
+.lw-btn{width:100%;padding:11px;background:var(--blue,#2563eb);color:#fff;border:none;border-radius:8px;font-family:var(--mono,'monospace');font-size:13px;font-weight:700;cursor:pointer;letter-spacing:1px}
+.lw-btn:hover{opacity:.85}
+.lw-err{color:#f87171;font-size:11px;font-family:var(--mono,'monospace');display:none}
+.lw-err.show{display:block}
+
 </style>
 </head>
 <body>
@@ -489,7 +503,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 <footer>
   <div class="ft-l">
     <span class="ft-brand">Escritório de Projetos · Binario Cloud</span>
-    <span class="ft-sync" id="ftNote">Última atualização: 06/08/2026 11:53 BRT</span>
+    <span class="ft-sync" id="ftNote">Última atualização: 07/08/2026 22:09 BRT</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
     <span class="ft-badge">BCP · Edge UOL</span>
@@ -1120,5 +1134,40 @@ renderAll();
   if(sd && lu) lu.textContent = sd.textContent;
 })();
 </script>
+
+<script>
+// ── AUTH ──────────────────────────────────────────────
+const USERS = {
+  "binario": "binario@2026",
+  "diogo":   "binario@2026",
+  "wagner":  "binario@2026",
+  "uol":     "uol@2026"
+};
+function doLogin(){
+  const u = document.getElementById('lwUser').value.trim().toLowerCase();
+  const p = document.getElementById('lwPass').value;
+  if(USERS[u] && USERS[u] === p){
+    sessionStorage.setItem('bcp_auth', u);
+    document.getElementById('loginWall').classList.remove('show');
+    document.getElementById('main').style.display = '';
+  } else {
+    document.getElementById('lwErr').classList.add('show');
+  }
+}
+document.getElementById('lwUser').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('lwPass').focus(); });
+document.getElementById('lwPass').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+// Verificar sessão
+(function(){
+  const auth = sessionStorage.getItem('bcp_auth');
+  const wall = document.getElementById('loginWall');
+  const main = document.getElementById('main');
+  if(!auth){
+    wall.classList.add('show');
+    if(main) main.style.display = 'none';
+  }
+})();
+// ─────────────────────────────────────────────────────
+</script>
+
 </body>
 </html>
