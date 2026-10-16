@@ -1281,7 +1281,7 @@ function renderGantt(){
     const over = s==='late' ? `<div class="g-over" style="left:${X(r.due)};width:calc(${X(TODAY)} - ${X(r.due)})" title="${daysLate(r.item)} dia(s) além do prazo"></div>` : '';
     if(r.num===999) return `<div class="g-rr p"><div class="g-ms${s==='late'?' late':''}" style="left:${X(r.due)};background:${col}" title="${esc(r.name)} · prazo ${fmtY(r.due)}"></div>${over}</div>`;
     return `<div class="g-rr ${r.p?'p':''}"><div class="g-bar${s==='late'?' late':''}" style="left:${X(r.start)};width:calc(${X(r.due+DAY*0.85)} - ${X(r.start)});background:${col}" title="${esc(r.name)} · ${esc(r.who||'')} · ${st(r.status).label} · ${fmtY(r.start)} → ${fmtY(r.due)}">
-      <div class="done" style="width:${Math.round(r.prog*100)}%"></div><span>${r.p?Math.round(r.prog*100)+'%':(PARTY[r.party]?.label||'')}</span></div>${over}</div>`;
+      <div class="done" style="width:${Math.round(r.prog*100)}%"></div><span>${Math.round(r.prog*100)}%</span></div>${over}</div>`;
   }).join('');
 
   g.innerHTML = `<div class="g-legend">
