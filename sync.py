@@ -6,7 +6,7 @@ if not CLICKUP_TOKEN:
     print("ERRO: CLICKUP_TOKEN nao encontrado!")
     sys.exit(1)
 
-LIST_ID = "901327467073"
+LIST_ID = "901329195447"
 BRT = timezone(timedelta(hours=-3))
 
 SM = {
