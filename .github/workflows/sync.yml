@@ -1,0 +1,34 @@
+name: Sync ClickUp → Painel
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'   # todo hora, ex: 08:00, 09:00, 10:00...
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Sync ClickUp e gerar painel
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+        run: python sync.py
+
+      - name: Commit e Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add painel.html index.html
+          git diff --staged --quiet || git commit -m "sync: auto $(date +'%d/%m/%Y %H:%M')"
+          git push
