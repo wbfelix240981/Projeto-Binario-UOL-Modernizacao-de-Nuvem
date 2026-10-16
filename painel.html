@@ -747,7 +747,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-10-16T10:08:00Z";   // dados lidos do ClickUp em 16/10/2026 07:08 (BRT)
+const LAST_SYNC_UTC = "2026-10-16T14:30:00Z";   // dados lidos do ClickUp em 16/10/2026 11:30 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -814,7 +814,7 @@ const REUNIOES = [
 ];
 
 /* ---------- MARCOS E ATIVIDADES ----------
-   Fonte: ClickUp · lista "2° Zona - Glete" (92 tarefas, lidas em 16/10/2026).
+   Fonte: ClickUp · lista "2° Zona - Glete" (92 tarefas, lidas em 16/10/2026 às 11:30 BRT).
    As atividades herdam status, datas e responsável do grupo quando não têm os próprios. */
 function inh(fases){
   fases.forEach(f=>(f.ativ||[]).forEach(a=>{
@@ -832,12 +832,12 @@ const METAS = [
    { n:'Mapeamento e planejamento das atividades', party:'binario', assignee:'Diogo Lerison', status:'shipped', start:'2026-10-06', due:'2026-10-09', id:'86akrm9br' },
    { n:'Estudo: infraestrutura do datacenter Glete sem Ceph, 100% SAN', party:'binario', assignee:'Luiz Fernando Justino Silva', status:'shipped', start:'2026-10-06', due:'2026-10-30', id:'86aju389v',
      obs:'Entregável: análise de viabilidade, riscos e arquitetura proposta.' },
-   { n:'Coleta de informações do ambiente', party:'ambos', assignee:'', status:'backlog', start:'2026-10-06', due:'2026-10-06', id:'86aktf3g2', obs:'Sem responsável no ClickUp.' },
-   { n:'Definições', party:'ambos', assignee:'Diogo Lerison', status:'backlog', id:'86akry7kx', ativ:[
-     { n:'Definição de volume types', id:'86akry7m3', assignee:'' },
-     { n:'Definição de flavors', id:'86akry7m2', assignee:'' },
-     { n:'Nomes DNS externos', id:'86akry7nv', assignee:'' },
-     { n:'Nomes DNS internos', id:'86akry7nw', assignee:'' } ] }
+   { n:'Coleta de informações do ambiente', party:'ambos', assignee:'', status:'shipped', start:'2026-10-06', due:'2026-10-06', id:'86aktf3g2', obs:'Concluído conforme ClickUp.' },
+   { n:'Definições', party:'ambos', assignee:'Diogo Lerison', status:'shipped', id:'86akry7kx', ativ:[
+     { n:'Definição de volume types', id:'86akry7m3', assignee:'', status:'shipped' },
+     { n:'Definição de flavors', id:'86akry7m2', assignee:'', status:'shipped' },
+     { n:'Nomes DNS externos', id:'86akry7nv', assignee:'', status:'shipped' },
+     { n:'Nomes DNS internos', id:'86akry7nw', assignee:'', status:'shipped' } ] }
  ]) },
 
  { num:1, name:'Marco 1 — Fase 01 · Formatação', short:'Fase 01 · Formatação', status:'shipped', assignee:'Luiz Fernando · Diogo Lerison',
