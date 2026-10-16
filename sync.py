@@ -149,6 +149,10 @@ now_str = datetime.now(BRT).strftime("%d/%m/%Y %H:%M")
 html = re.sub(r'<b id="syncDate">[^<]*</b>', '<b id="syncDate">{}</b>'.format(now_str), html)
 html = re.sub(r'id="ftNote">[^<]+', 'id="ftNote">Auto-sync: {} BRT'.format(now_str), html)
 
+# Atualizar LAST_SYNC_UTC para refletir data/hora real do sync
+utc_now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+html = re.sub(r'const LAST_SYNC_UTC = "[^"]*";', 'const LAST_SYNC_UTC = "{}";'.format(utc_now), html)
+
 with open("painel.html", "w") as f:
     f.write(html)
 
