@@ -1,188 +1,124 @@
-import json, re, urllib.request, os, sys
+"""
+sync.py — Atualiza LAST_SYNC_UTC no painel BCP Edge UOL (Glete)
+Roda via GitHub Actions a cada hora.
+"""
+import re, os, sys, shutil
 from datetime import datetime, timezone, timedelta
 
 CLICKUP_TOKEN = os.environ.get("CLICKUP_TOKEN", "")
 if not CLICKUP_TOKEN:
-    print("ERRO: CLICKUP_TOKEN nao encontrado!")
+    print("ERRO: CLICKUP_TOKEN nao encontrado nos secrets do GitHub!")
+    print("Adicione em: Settings > Secrets and variables > Actions > New repository secret")
+    print("  Nome: CLICKUP_TOKEN")
+    print("  Valor: pk_118043914_J5M4TLXNJIC4RUA4G540YT309FSRVJFC")
     sys.exit(1)
 
-LIST_ID = "901329195447"
-BRT = timezone(timedelta(hours=-3))
+LIST_ID   = "901329195447"   # 2° Região - Glete
+BRT       = timezone(timedelta(hours=-3))
 
+# Mapeamento de status ClickUp -> status interno do painel
 SM = {
-    "fechado": "complete",
-    "entregue": "complete",
-    "revisando": "complete",
-    "em andamento": "in progress",
-    "aberto": "to do"
+    "fechado":    "shipped",
+    "entregue":   "shipped",
+    "concluído":  "shipped",
+    "revisando":  "in progress",
+    "em andamento":"in progress",
+    "aberto":     "backlog",
 }
 
-parent = {
-    "86ahx8exe":"null","86ahx9315":"null","86ahx8c64":"null","86ahx948g":"null",
-    "86ahx73pc":"null","86ahx750d":"null","86ahx7515":"null","86aj2p7gb":"null","86ahxbff7":"null",
-    "86ahx8ffr":"86ahx8exe","86ahx8hrf":"86ahx8ffr","86ahx8j8p":"86ahx8hrf",
-    "86ahx8qbe":"86ahx8hrf","86ahx8ujt":"86ahx8hrf","86ahx8hrt":"86ahx8ffr",
-    "86ahx8jav":"86ahx8hrt","86ahx8t1z":"86ahx8hrt",
-    "86ahx92xw":"86ahx9315","86ahx940c":"86ahx9315",
-    "86ahx8cmc":"86ahx8c64","86aj0rzxf":"86ahx8cmc","86ahx91xf":"86ahx8c64","86aj0rzz6":"86ahx91xf",
-    "86ahx9399":"86ahx8c64","86ahx93bm":"86ahx9399","86ahx93cr":"86ahx9399",
-    "86ahx94tb":"86ahx948g","86ahx95ew":"86ahx948g","86ahx9cx5":"86ahx95ew","86ahx97ux":"86ahx95ew",
-    "86ahx9jfb":"86ahx948g","86ahx9r7f":"86ahx948g",
-    "86aj3mnd7":"86ahx948g","86aj3mj94":"86ahx948g","86aj3mfju":"86ahx948g",
-    "86aj3rxnm":"86ahx948g","86aj3qkud":"86ahx948g","86aj3qg6y":"86ahx948g",
-    "86aj3w78n":"86ahx948g","86aj3wq76":"86ahx948g","86aj402pa":"86ahx948g",
-    "86aj2pc7t":"86ahx8nun",
-    "86aj2u1m1":"86aj2p7gb",
-    "86ahx758f":"86ahx73pc","86ahx7rpe":"86ahx758f","86ahx7ru4":"86ahx7rpe",
-    "86ahx7vfd":"86ahx7ru4","86ahx81nc":"86ahx7ru4","86ahx7w1k":"86ahx7rpe",
-    "86ahx7w9m":"86ahx7w1k","86ahx7wcg":"86ahx7w1k","86ahx7w3q":"86ahx7rpe",
-    "86ahx7wgu":"86ahx7w3q","86ahx7wjm":"86ahx7w3q","86ahx81te":"86ahx7rpe",
-    "86ahx8211":"86ahx81te","86ahx821p":"86ahx81te","86ahx822w":"86ahx81te",
-    "86ahx7x5e":"86ahx758f","86ahx7x9p":"86ahx7x5e","86ahx7xdq":"86ahx7x9p",
-    "86ahx7xfa":"86ahx7x9p","86ahx7xgr":"86ahx7x9p","86ahx7xm8":"86ahx7x5e",
-    "86ahx7xtg":"86ahx7xm8","86ahx7xue":"86ahx7xm8","86ahx82kf":"86ahx7x5e",
-    "86ahzgkpu":"86ahx750d","86ahx75gf":"86ahzgkpu","86ahx75pt":"86ahzgkpu",
-    "86ahx7zrd":"86ahx75pt","86ahx815n":"86ahx7zrd","86ahx7zzn":"86ahx75pt","86ahx81pm":"86ahx7zzn",
-    "86ahx80uu":"86ahx75pt","86ahx81qt":"86ahx80uu","86ahx80vh":"86ahx75pt","86ahx81t2":"86ahx80vh",
-    "86ahx7r2a":"86ahx750d","86ahx7rfu":"86ahx7r2a","86ahx7rgd":"86ahx7rfu",
-    "86ahx7znj":"86ahx7rfu","86ahx7zq3":"86ahx7rfu","86ahx7rnw":"86ahx7rfu",
-    "86ahx7tmg":"86ahx7r2a","86ahx7xuu":"86ahx7tmg","86ahx897c":"86ahx7xuu","86ahx898k":"86ahx7xuu",
-    "86ahx7xvw":"86ahx7tmg","86ahx8993":"86ahx7xvw","86ahx899t":"86ahx7xvw",
-    "86ahx7xwn":"86ahx7tmg","86ahx89ed":"86ahx7xwn","86ahx89fm":"86ahx7xwn",
-    "86ahx89gr":"86ahx7xwn","86ahx89rd":"86ahx7xwn","86ahx89qr":"86ahx7xwn",
-    "86ahx7y8e":"86ahx7tmg","86ahx89jv":"86ahx7y8e","86ahx89kw":"86ahx7y8e",
-    "86ahx89n9":"86ahx7y8e","86ahx89yu":"86ahx7y8e","86ahx89zb":"86ahx7y8e",
-    "86ahx7ubv":"86ahx7r2a","86ahx7uu8":"86ahx7r2a","86ahx8bq9":"86ahx7uu8","86ahx8bv8":"86ahx7uu8",
-    "86ahzgvc0":"86ahx7r2a","86ahx7v6d":"86ahzgvc0","86ahx7vc2":"86ahzgvc0",
-    "86ahx7vnc":"86ahzgvc0","86ahx7vvm":"86ahzgvc0","86ahx7wv8":"86ahzgvc0","86ahx80x3":"86ahzgvc0",
-    "86ahx7r4a":"86ahx750d","86ahx8jqq":"86ahx7r4a","86ahx8jxt":"86ahx8jqq",
-    "86ahx8k6v":"86ahx8jqq","86ahx8n9x":"86ahx8jqq","86ahx8nb9":"86ahx8jqq",
-    "86ahx878m":"86ahx7r4a","86ahx87jh":"86ahx878m","86ahx87nk":"86ahx878m",
-    "86ahx87qf":"86ahx878m","86ahx87y7":"86ahx878m","86ahx88gh":"86ahx878m",
-    "86ahx88ku":"86ahx878m","86ahx88n3":"86ahx878m","86ahx89k0":"86ahx7r4a",
-    "86ahx89qd":"86ahx7r4a","86ahx8pcm":"86ahx89qd",
-    "86ahx89w3":"86ahx7r4a","86ahx89ub":"86ahx89w3","86ahx89vp":"86ahx89w3","86ahx89wk":"86ahx89w3",
-    "86ahx8a17":"86ahx89w3","86ahx8a23":"86ahx89w3","86ahx8a3h":"86ahx89w3",
-    "86ahx8aax":"86ahx89w3","86ahx8aej":"86ahx89w3","86ahx8apy":"86ahx89w3",
-    "86ahx8axu":"86ahx89w3","86ahx8ayh":"86ahx89w3","86ahx8b0p":"86ahx89w3",
-    "86ahx8b1a":"86ahx89w3","86ahx8b2r":"86ahx89w3","86ahx8b59":"86ahx89w3",
-    "86ahx8b5q":"86ahx89w3","86ahx8b6w":"86ahx89w3","86ahx8b71":"86ahx89w3",
-    "86ahx8b79":"86ahx89w3","86ahx8b81":"86ahx89w3","86ahx8b8n":"86ahx89w3",
-    "86ahx8b8u":"86ahx89w3","86ahx8b98":"86ahx89w3","86ahx8ba7":"86ahx89w3",
-    "86ahx8bb4":"86ahx89w3","86ahx8bby":"86ahx89w3","86ahx8bbm":"86ahx89w3",
-    "86ahx8bcf":"86ahx89w3","86ahx8dep":"86ahx89w3","86ahx8dje":"86ahx89w3",
-    "86ahx8dp6":"86ahx89w3","86ahx8dtx":"86ahx89w3","86ahx8dwu":"86ahx89w3","86ahx8f6j":"86ahx89w3",
-    "86ahx83r4":"86ahx750d","86ahx8gar":"86ahx83r4","86ahx8nfv":"86ahx8gar",
-    "86ahx8ynx":"86ahx7515","86ahx902u":"86ahx8ynx","86ahx9053":"86ahx902u","86ahx906n":"86ahx902u",
-    "86ahx8pua":"86ahx7515","86ahx90a4":"86ahx8pua","86ahx90ew":"86ahx90a4",
-    "86ahx90fe":"86ahx90a4","86ahx90g1":"86ahx90a4","86ahx90gx":"86ahx90a4","86ahx90jd":"86ahx90a4",
-    "86ahx90at":"86ahx8pua","86ahx90kh":"86ahx90at","86ahx90b9":"86ahx8pua","86ahx90m5":"86ahx90b9",
-    "86ahx8r5b":"86ahx7515","86ahx8r8z":"86ahx7515","86ahx8rdd":"86ahx7515",
-    "86ahx8nun":"86ahx7515","86ahx8u6h":"86ahx8nun","86ahx8tpw":"86ahx8nun",
-    "86ahx8tww":"86ahx8nun","86ahx8u2q":"86ahx8nun","86ahx8uhu":"86ahx8nun",
-    "86ahx911h":"86ahx8nun","86ahxbze1":"86ahx8nun",
-    "86ahx8v98":"86ahx7515","86ahx8vk3":"86ahx7515","86ahxbfy1":"86ahxbff7",
-}
+import urllib.request, json
 
-def fetch_tasks(page):
-    url = "https://api.clickup.com/api/v2/list/{}/task?include_closed=true&subtasks=true&page={}&order_by=created".format(LIST_ID, page)
-    req = urllib.request.Request(url, headers={"Authorization": CLICKUP_TOKEN})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            data = json.loads(r.read())
-            tasks = data.get("tasks", [])
-            print("Pagina {}: {} tarefas".format(page, len(tasks)))
-            return tasks
-    except Exception as e:
-        print("ERRO pagina {}: {}".format(page, e))
-        raise
+def fetch_tasks():
+    """Busca todas as tarefas da lista no ClickUp."""
+    tasks = {}
+    for page in range(5):
+        url = (
+            "https://api.clickup.com/api/v2/list/{}/task"
+            "?include_closed=true&page={}&order_by=created"
+        ).format(LIST_ID, page)
+        req = urllib.request.Request(url, headers={"Authorization": CLICKUP_TOKEN})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                data = json.loads(r.read())
+                batch = data.get("tasks", [])
+                print("Pagina {}: {} tarefas".format(page, len(batch)))
+                if not batch:
+                    break
+                for t in batch:
+                    raw = t.get("status", {})
+                    raw_str = raw.get("status", "aberto") if isinstance(raw, dict) else str(raw)
+                    tasks[t["id"]] = {
+                        "name":   t["name"],
+                        "status": SM.get(raw_str.lower(), "backlog"),
+                        "raw":    raw_str,
+                    }
+        except Exception as e:
+            print("ERRO pagina {}: {}".format(page, e))
+            raise
+    return tasks
 
-all_tasks = {}
-for page in range(3):
-    tasks = fetch_tasks(page)
-    if not tasks:
-        break
-    for t in tasks:
-        status_obj = t.get("status", "aberto")
-        status_raw = status_obj.get("status", "aberto") if isinstance(status_obj, dict) else str(status_obj)
-        s = SM.get(status_raw, "to do")
-        if status_raw not in SM:
-            print("AVISO status desconhecido: {} em {} - {}".format(status_raw, t["id"], t["name"]))
-        all_tasks[t["id"]] = {
-            "n": t["name"],
-            "s": s,
-            "a": [a["username"] for a in t.get("assignees", [])]
-        }
-
+# ── Buscar tarefas ──────────────────────────────────────────────────────────
+all_tasks = fetch_tasks()
 print("Total: {} tarefas".format(len(all_tasks)))
-if len(all_tasks) == 0:
-    print("ERRO: Nenhuma tarefa coletada!")
+if not all_tasks:
+    print("ERRO: nenhuma tarefa retornada pelo ClickUp")
     sys.exit(1)
 
-lines = []
-for tid, data in all_tasks.items():
-    par = parent.get(tid, "null")
-    p = '"{}"'.format(par) if par != "null" else "null"
-    nome_safe = data["n"].replace('"', '\\"')
-    a = ",".join(['"{}"'.format(x) for x in data["a"]])
-    lines.append('"{}": {{"n":"{}","s":"{}","p":{},"a":[{}]}}'.format(
-        tid, nome_safe, data["s"], p, a))
+# ── Atualizar status das fases no painel ────────────────────────────────────
+# IDs conhecidos e seus campos no HTML (status embutido no JS como string)
+STATUS_MAP_HTML = {
+    "shipped":     "shipped",
+    "in progress": "in progress",
+    "backlog":     "backlog",
+}
 
-tasks_js = "const TASKS = {\n" + ",\n".join(lines) + "\n}"
-
-with open("painel.html", "r") as f:
+with open("index.html", "r", encoding="utf-8") as f:
     html = f.read()
 
-s_idx = html.find("const TASKS = {")
-e_idx = html.find("\nconst TOP_ORDER", s_idx)
-if s_idx != -1 and e_idx != -1:
-    html = html[:s_idx] + tasks_js + html[e_idx:]
-else:
-    print("AVISO: nao encontrou bloco TASKS no painel.html")
-
-html = re.sub(r'const TOP_ORDER = \[.*?\];',
-    'const TOP_ORDER = ["86ahx8exe","86ahx9315","86ahx8c64","86ahx948g","86ahx73pc","86ahx750d","86ahx7515","86aj2p7gb","86ahxbff7"];', html)
-html = re.sub(r'const PROGRESS_GROUPS = (?:new Set\()?\[.*?\]\)?;',
-    'const PROGRESS_GROUPS = new Set(["86ahx8c64","86ahx948g","86ahx73pc","86ahx750d","86ahx7515","86aj2p7gb"]);', html)
-
-now_str = datetime.now(BRT).strftime("%d/%m/%Y %H:%M")
-html = re.sub(r'<b id="syncDate">[^<]*</b>', '<b id="syncDate">{}</b>'.format(now_str), html)
-html = re.sub(r'id="ftNote">[^<]+', 'id="ftNote">Auto-sync: {} BRT'.format(now_str), html)
-
-# Atualizar LAST_SYNC_UTC para refletir data/hora real do sync
+# Atualizar LAST_SYNC_UTC
 utc_now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-html = re.sub(r'const LAST_SYNC_UTC = "[^"]*";', 'const LAST_SYNC_UTC = "{}";'.format(utc_now), html)
+html = re.sub(
+    r"const LAST_SYNC_UTC = \"[^\"]*\";",
+    'const LAST_SYNC_UTC = "{}";'.format(utc_now),
+    html
+)
 
-with open("painel.html", "w") as f:
+# Atualizar cada tarefa do ClickUp que aparece no HTML pelo seu id
+changed = 0
+for tid, info in all_tasks.items():
+    new_status = info["status"]
+    # Encontrar ocorrências do id no HTML e atualizar status próximo
+    # Padrão: id:'XXXX', ...status:'YYY'  — pode ter atributos no meio
+    pattern = r"(id:'" + re.escape(tid) + r"'[^}]{0,200}?status:')(shipped|in progress|backlog)(')"
+    def replacer(m, ns=new_status):
+        old = m.group(2)
+        if old != ns:
+            return m.group(1) + ns + m.group(3)
+        return m.group(0)
+    new_html, n = re.subn(pattern, replacer, html)
+    if n > 0:
+        old_matches = re.findall(pattern, html)
+        for om in old_matches:
+            if om[1] != new_status:
+                print("  {} «{}»: {} → {}".format(tid, info["name"][:40], om[1], new_status))
+                changed += 1
+        html = new_html
+
+# Atualizar também o comentário de quantidade/horário
+brt_now = datetime.now(BRT).strftime("%d/%m/%Y às %H:%M")
+html = re.sub(
+    r'Fonte: ClickUp · lista "2° Região - Glete" \([^)]+\)\.',
+    'Fonte: ClickUp · lista "2° Região - Glete" ({} tarefas, lidas em {} BRT).'.format(
+        len(all_tasks), brt_now
+    ),
+    html
+)
+
+print("Status atualizados: {} fases".format(changed))
+
+with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-# Copiar para index.html tambem
-import shutil
-shutil.copy("painel.html", "index.html")
+shutil.copy("index.html", "painel.html")
 
-# Calcular e exibir o % atual
-import subprocess
-result = subprocess.run(["node", "-e", """
-const fs = require('fs');
-const html = fs.readFileSync('painel.html', 'utf8');
-const tasks_match = html.match(/const TASKS = \{([\s\S]*?)\}\nconst TOP_ORDER/);
-const pg_match = html.match(/const PROGRESS_GROUPS = new Set\(\[([^\]]+)\]\)/);
-if (!tasks_match || !pg_match) { console.log('0|0|0|0'); process.exit(0); }
-eval(html.match(/(const TASKS = \{[\s\S]*?\}\nconst TOP_ORDER[^;]+;\nconst PROGRESS_GROUPS[^;]+;)/)[1]);
-function inScope(id) {
-  let c = id; const v = new Set();
-  while (c) { if (v.has(c)) break; v.add(c); if (PROGRESS_GROUPS.has(c)) return true;
-    const t = TASKS[c]; c = t ? t.p : null; if (!c || c === 'null') break; }
-  return false;
-}
-let t=0,d=0,ip=0,td=0;
-Object.entries(TASKS).forEach(([id,x])=>{ if(inScope(id)){t++;if(x.s==='complete')d++;else if(x.s==='in progress')ip++;else td++;} });
-console.log((d/t*100).toFixed(1).replace('.',',')+"|"+d+"|"+ip+"|"+td+"|"+t);
-"""], capture_output=True, text=True)
-p = result.stdout.strip().split('|')
-if len(p) >= 5:
-    pct, d_d, ip_d, td_d, t_d = p[0], p[1], p[2], p[3], p[4]
-    print("Progresso: {}% | Concluidas: {}/{} | Em Andamento: {} | Abertas: {}".format(pct, d_d, t_d, ip_d, td_d))
-
-total_tasks = len(all_tasks)
-print("painel.html e index.html atualizados - {} BRT ({} tarefas)".format(now_str, total_tasks))
+print("index.html e painel.html atualizados — {} BRT".format(brt_now))
