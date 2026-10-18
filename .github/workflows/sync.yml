@@ -23,7 +23,12 @@ jobs:
       - name: Sync ClickUp e gerar painel
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
-        run: python sync.py
+          CLICKUP_TOKEN_FALLBACK: "pk_118043914_J5M4TLXNJIC4RUA4G540YT309FSRVJFC"
+        run: |
+          if [ -z "$CLICKUP_TOKEN" ]; then
+            export CLICKUP_TOKEN="$CLICKUP_TOKEN_FALLBACK"
+          fi
+          python sync.py
 
       - name: Commit e Push
         run: |
