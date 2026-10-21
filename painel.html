@@ -787,6 +787,42 @@ const PROXIMOS_PASSOS = [
 
 const REUNIOES = [
   {
+    data: '2026-10-20',
+    titulo: 'FUP – Edge UOL 2ª Região Glete',
+    duracao: '16 min',
+    participantes: [
+      ['Diogo Lerison',                        'binario'],
+      ['Matheus Almeida',                      'binario'],
+      ['Samy Silva de Oliveira',               'algar'],
+      ['Rafael Antunes Pedrosa Alves',         'algar'],
+      ['Fernando Henrique Menezes de Almeida', 'algar'],
+      ['Sidrack Ferreira Silva Junior',        'algar'],
+      ['Leonardo Gonçales',                    'algar'],
+      ['Luiz Justino',                         'algar']
+    ],
+    decisoes: [
+      ['Bonding da Glete validada como correta — não alterar para LACP', 'A diferença em relação à Tamboré é intencional: fabric Cisco da Glete não fecha LACP. Configuração active-backup e ativo-ativo sem LACP está correta.'],
+      ['Masking View vMAX concluída — attach de discos validado às 16:40', 'Necessário compor Initiator Group (WWNs), Port Group (targets) e Storage Group. Matheus e Rafael confirmaram execução com sucesso via Teams às 16:40.'],
+      ['Rede pública /22 liberada e validada', 'Fernando liberou às 14:40; Matheus confirmou comunicação via ping às 14:43. Item encerrado.'],
+      ['Certificado privado disponível; público em aquisição', 'Samy disponibilizou o certificado privado. Certificado público esperado ainda esta semana — acompanhar no próximo FUP.'],
+      ['SAP/SUSE/RHEL: Cássio alinha diretamente com Mauro', 'Sem necessidade de reunião ampliada no momento. Nova reunião convocada apenas se necessário.']
+    ],
+    pontos: [
+      'Rede: bond-adm0 da Glete em active-backup está correto para o fabric Cisco — não requer alteração para LACP como na Tamboré.',
+      'Storage: Masking View finalizada; attach de discos via Cinder validado com sucesso às 16:40.',
+      'Rede pública /22: liberada por Fernando (14:40) e validada por Matheus (14:43). Item concluído.',
+      'Certificados: privado disponível; público em processo de aquisição, esperado esta semana.',
+      'SAP/SUSE/RHEL: Cássio e Mauro alinham diretamente; reunião ampliada apenas se necessário.'
+    ],
+    pendencias: [
+      ['Retestar criação de recursos (VM, imagem, conectividade)', 'Matheus Almeida', null],
+      ['Disponibilizar certificado público', 'Samy / Edge UOL', null],
+      ['Acompanhar SAP / SUSE / RHEL', 'Cássio / Mauro', null]
+    ],
+    riscos: null,
+    obs: 'FUP 20/10/2026 — 16 min 30 s. Rede pública e storage vMAX validados no mesmo dia.'
+  },
+  {
     data: '2026-10-15',
     titulo: 'Alinhamento VPN e acesso aos equipamentos',
     duracao: '14 min',
