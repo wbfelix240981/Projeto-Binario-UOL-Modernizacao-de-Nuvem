@@ -367,6 +367,13 @@ footer a{color:var(--brand-700);font-weight:700}
 }
 
 /* ---------- Reuniões ---------- */
+#secReunioes .sec-head{cursor:pointer;user-select:none;border-radius:12px;padding:6px 8px;margin:-6px -8px 14px;transition:background .15s}
+#secReunioes .sec-head:hover{background:var(--idle-bg)}
+#secReunioes .sec-head h2::after{content:'';display:inline-block;width:10px;height:10px;border-right:2.5px solid var(--text-3);border-bottom:2.5px solid var(--text-3);transform:rotate(45deg);margin-left:8px;margin-bottom:3px;transition:transform .2s}
+#secReunioes.open .sec-head h2::after{transform:rotate(-135deg);margin-bottom:-2px}
+#secReunioes #reunioes{display:none}
+#secReunioes.open #reunioes{display:block}
+@media print{#secReunioes #reunioes{display:block!important}}
 .mtg{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px;margin-bottom:12px}
 .mtg-h{display:flex;gap:14px;align-items:center;cursor:pointer;border-radius:12px}
 .mtg-h > div:nth-child(2){flex:1;min-width:0}
@@ -685,7 +692,7 @@ footer a{color:var(--brand-700);font-weight:700}
 
   <!-- Reuniões -->
   <section class="sec" id="secReunioes">
-    <div class="sec-head"><div><h2>Reuniões e decisões</h2><p>Clique na reunião para ver os pontos acordados e as pendências.</p></div></div>
+    <div class="sec-head"><div><h2>Reuniões e decisões</h2><p>Clique para expandir · Clique na reunião para ver os pontos acordados e pendências.</p></div></div>
     <div id="reunioes"></div>
   </section>
 
@@ -1156,6 +1163,8 @@ function renderReunioes(){
       ${r.riscos?`<div class="mtg-risk"><h4>Riscos identificados</h4><ul>${r.riscos.map(([t,mit])=>`<li><span>⚠ ${esc(t)}</span><small>Mitigação: ${esc(mit)}</small></li>`).join('')}</ul></div>`:''}
       ${r.obs?`<div class="mtg-obs">ⓘ ${esc(r.obs)}</div>`:''}</div>
     </article>`).join('');
+  const secR = document.getElementById('secReunioes');
+  secR.querySelector('.sec-head').onclick = () => secR.classList.toggle('open');
   document.querySelectorAll('#reunioes .mtg-h').forEach(h=>{
     const tg=()=>{ const a=h.parentElement; a.classList.toggle('open'); h.setAttribute('aria-expanded', a.classList.contains('open')); };
     h.onclick=tg; h.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tg(); } };
