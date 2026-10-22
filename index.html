@@ -745,7 +745,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-10-22T14:10:51Z";   // dados lidos do ClickUp em 16/10/2026 14:57 (BRT)
+const LAST_SYNC_UTC = "2026-10-22T17:30:00Z";   // dados lidos do ClickUp em 22/10/2026 14:30 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -925,18 +925,18 @@ const METAS = [
      { n:'Acompanhamento para possíveis erros', id:'86akry7xr', status:'in progress', assignee:'Matheus do Rosario' } ] }
  ]) },
 
- { num:3, name:'Marco 3 — Fase 03 · Validação', short:'Fase 03 · Validação', status:'backlog', assignee:'Matheus do Rosario',
+ { num:3, name:'Marco 3 — Fase 03 · Validação', short:'Fase 03 · Validação', status:'in progress', assignee:'Matheus do Rosario',
    detail:'Criação de volume types, flavors e redes, upload de imagens e testes de todos os serviços (VM, Octavia, Magnum, Trove, Manila, RGW, PaaS e observabilidade). Sugestão registrada no ClickUp: criar um YAML do Heat para executar todos os testes.',
    fases: inh([
-   { n:'Volume types', party:'binario', assignee:MR, status:'backlog', start:'2026-10-30', due:'2026-11-06', id:'86akry7nq', ativ:[
-     { n:'Volume types definidos pelo cliente › nomes', id:'86akry7r5', party:'ambos', assignee:'Matheus do Rosario' },
-     { n:'Volume types definidos pelo cliente › QoS', id:'86akry7r7', party:'ambos', assignee:'Matheus do Rosario' } ] },
-   { n:'Upload de imagens para VMs e serviços', party:'binario', assignee:MR, status:'backlog', start:'2026-10-30', due:'2026-11-06', id:'86akry7nu', ativ:[
+   { n:'Volume types', party:'binario', assignee:MR, status:'shipped', start:'2026-10-30', due:'2026-11-06', id:'86akry7nq', ativ:[
+     { n:'Volume types definidos pelo cliente › nomes', id:'86akry7r5', party:'ambos', assignee:'Matheus do Rosario', status:'shipped' },
+     { n:'Volume types definidos pelo cliente › QoS', id:'86akry7r7', party:'ambos', assignee:'Matheus do Rosario', status:'shipped' } ] },
+   { n:'Upload de imagens para VMs e serviços', party:'binario', assignee:MR, status:'in progress', start:'2026-10-30', due:'2026-11-06', id:'86akry7nu', ativ:[
      { n:'Ubuntu › imagens de clientes' },
-     { n:'Ubuntu › Octavia', id:'86akry7t9' },
-     { n:'Ubuntu › Trove', id:'86akry7r4' },
-     { n:'Ubuntu › Manila', id:'86akry7rt' },
-     { n:'Ubuntu › Magnum', id:'86akry7ru' },
+     { n:'Ubuntu › Octavia', id:'86akry7t9', status:'shipped' },
+     { n:'Ubuntu › Trove', id:'86akry7r4', status:'in progress' },
+     { n:'Ubuntu › Manila', id:'86akry7rt', status:'shipped' },
+     { n:'Ubuntu › Magnum', id:'86akry7ru', status:'in progress' },
      { n:'Debian › imagens de clientes' },
      { n:'Windows › imagens de clientes' } ] },
    { n:'Recursos base', party:'binario', assignee:MR, status:'backlog', start:'2026-10-30', due:'2026-11-06', ativ:[
