@@ -794,6 +794,32 @@ const PROXIMOS_PASSOS = [
 
 const REUNIOES = [
   {
+    data: '2026-10-29',
+    titulo: 'Alinhamento SAP/SUSE/RHEL — compatibilidade com BCP',
+    duracao: '17 min',
+    participantes: [
+      ['Sidrack Ferreira Silva Junior',        'algar'],
+      ['Cassio Nascimento dos Santos',         'algar'],
+      ['Fernando Henrique Menezes de Almeida', 'algar']
+    ],
+    decisoes: [
+      ['SAP requer Red Hat Enterprise ou SUSE — Ubuntu não é suportado', 'Clientes que utilizam SAP precisam de compliance com a SAP, que não certifica ambientes Ubuntu. O BCP (Binário Cloud Platform / BCOS) é baseado em Ubuntu, o que gera incompatibilidade.'],
+      ['Documento a ser enviado para Sidrack (Justino) com cópia para Ari', 'Documento já havia sido compartilhado com Rafael. Cássio solicitou que Ari também seja incluído na cópia para que Mauro fique ciente caso seja questionado.']
+    ],
+    pontos: [
+      'Reunião convocada por Sidrack para resolver divergência de informações sobre possibilidade de cluster Red Hat/SUSE no ambiente Tamboré.',
+      'Cássio esclareceu: SAP exige Red Hat Enterprise ou SUSE por questões de compliance — Ubuntu (base do BCP) não é certificado.',
+      'Documento de encaminhamento já compartilhado com Rafael; será enviado formalmente para Sidrack/Justino.',
+      'Ari incluído na cópia para garantir alinhamento com Mauro.'
+    ],
+    pendencias: [
+      ['Enviar documento para e-mail de Sidrack (Justino)', 'Sala Vip / Diogo', null],
+      ['Incluir Ari na cópia do e-mail', 'Sala Vip / Diogo', null]
+    ],
+    riscos: null,
+    obs: 'Reunião de alinhamento — 29/10/2026 — ~17 min.'
+  },
+  {
     data: '2026-10-20',
     titulo: 'FUP – Edge UOL 2ª Região Glete',
     duracao: '16 min',
