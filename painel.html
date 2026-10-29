@@ -752,7 +752,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-10-29T10:31:09Z";   // dados lidos do ClickUp em 26/10/2026 17:25 (BRT)
+const LAST_SYNC_UTC = "2026-10-29T13:40:00Z";   // dados lidos do ClickUp em 29/10/2026 10:40 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -923,10 +923,10 @@ const METAS = [
      { n:'Validar alterações feitas na automação', id:'86akry7xj', status:'shipped', assignee:MR },
      { n:'Checar as configurações do BCBOX vs Kolla', id:'86akry7x4', status:'shipped', assignee:MR },
      { n:'Subir o GitLab no ambiente do cliente', id:'86akry7vz', status:'in progress', assignee:'Vitor Ribeiro' },
-     { n:'Subir imagens PaaS', id:'86akry7we', assignee:'Matheus Ventura', start:'2026-10-26', due:'2026-10-30' },
-     { n:'qemu.conf.j2', id:'86akry7xx', assignee:MR },
-     { n:'nova-compute.json.j2', id:'86akry7xq', assignee:MR },
-     { n:'nova-libvirt.json.j2', id:'86akry7xp', assignee:MR } ] },
+     { n:'Subir imagens PaaS', id:'86akry7we', assignee:'Matheus Ventura', start:'2026-10-26', due:'2026-10-30', status:'in progress' },
+     { n:'qemu.conf.j2', id:'86akry7xx', assignee:MR, status:'shipped' },
+     { n:'nova-compute.json.j2', id:'86akry7xq', assignee:MR, status:'shipped' },
+     { n:'nova-libvirt.json.j2', id:'86akry7xp', assignee:MR, status:'shipped' } ] },
    { n:'Instalação – BCP – Dia 2', party:'binario', assignee:'Matheus · Guilherme Lopes', status:'in progress', start:'2026-10-12', due:'2026-10-23', id:'86akry7xe', ativ:[
      { n:'Executar deploy pelo BCBOX', id:'86akry7xk', status:'in progress', obs:'Inclui subir o Skyline personalizado.' },
      { n:'Acompanhamento para possíveis erros', id:'86akry7xr', status:'in progress', assignee:'Matheus do Rosario' } ] }
