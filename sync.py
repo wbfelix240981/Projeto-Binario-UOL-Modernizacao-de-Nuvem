@@ -75,11 +75,15 @@ STATUS_MAP_HTML = {
 with open("index.html", "r", encoding="utf-8") as f:
     html = f.read()
 
-# Atualizar LAST_SYNC_UTC
-utc_now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+# Atualizar LAST_SYNC_UTC e o comentário com horário BRT correto
+utc_now  = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+brt_date = datetime.now(BRT).strftime("%d/%m/%Y")
+brt_time = datetime.now(BRT).strftime("%H:%M")
 html = re.sub(
-    r"const LAST_SYNC_UTC = \"[^\"]*\";",
-    'const LAST_SYNC_UTC = "{}";'.format(utc_now),
+    r"const LAST_SYNC_UTC = \"[^\"]*\";\s*//[^\n]*",
+    'const LAST_SYNC_UTC = "{}";   // dados lidos do ClickUp em {} {} (BRT)'.format(
+        utc_now, brt_date, brt_time
+    ),
     html
 )
 
