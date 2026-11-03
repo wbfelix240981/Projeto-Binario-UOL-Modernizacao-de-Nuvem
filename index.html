@@ -752,7 +752,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-11-03T18:08:08Z";   // dados lidos do ClickUp em 03/11/2026 15:08 (BRT)
+const LAST_SYNC_UTC = "2026-11-03T19:00:00Z";   // dados lidos do ClickUp em 03/11/2026 16:00 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -793,6 +793,33 @@ const PROXIMOS_PASSOS = [
 ];
 
 const REUNIOES = [
+  {
+    data: '2026-11-03',
+    titulo: 'FUP Edge UOL — 2ª Região Glete (03/11)',
+    duracao: '~27 min',
+    participantes: [
+      ['Diogo Lerison',                         'binario'],
+      ['Fernando Henrique Menezes de Almeida',  'algar'],
+      ['Sidrack Ferreira Silva Junior',          'algar']
+    ],
+    decisoes: [
+      ['Entrega geral da SP2 mantida para 06/11/2026', 'Confirmado em reunião. Os ajustes gerais da segunda região permanecem dentro da expectativa de entrega.'],
+      ['Observabilidade estendida para 11/11/2026', 'A configuração específica de observabilidade necessita de dias adicionais. Sidrack confirmou concordância com a extensão exclusiva dessa frente.'],
+      ['Formalizar atualização/deploy nas duas regiões via GMUD', 'Janela prevista para esta semana. Sem impacto previsto aos serviços. GMUD deverá conter escopo, procedimento, validações e janela acordada.'],
+      ['Revisar acessos e chamados com Gustavo', 'Diogo responsável por alinhar com Gustavo o acesso do Edge UOL à plataforma de chamados e revisar o caso crítico de VMs Windows com alteração de interface de rede.']
+    ],
+    pendencias: [
+      ['Validar rede/VLAN de observabilidade e concluir comunicação da SP2', 'Binario Cloud / Edge UOL', null],
+      ['Concluir entrega geral da segunda região', 'Binario Cloud', '06/11/2026'],
+      ['Finalizar configuração de observabilidade da SP2', 'Binario Cloud – Desenvolvimento', '11/11/2026'],
+      ['Concluir ajustes e validações do Object Storage', 'Binario Cloud / Edge UOL', '06/11/2026'],
+      ['Formalizar e agendar janela de atualização/deploy (SP1 e SP2) via GMUD', 'Diogo / Equipe técnica', 'Esta semana'],
+      ['Regularizar acesso do Edge UOL à plataforma de chamados', 'Diogo / Gustavo', null],
+      ['Consolidar status dos chamados em andamento', 'Diogo / Gustavo', null],
+      ['Acompanhar chamado crítico: VMs Windows após adição de interface de rede', 'Diogo / Gustavo', null]
+    ],
+    obs: 'Reunião FUP — 03/11/2026 — ~27 min. Participação de Sidrack no complemento da reunião.'
+  },
   {
     data: '2026-10-29',
     titulo: 'Alinhamento SAP/SUSE/RHEL — compatibilidade com BCP',
