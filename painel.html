@@ -794,6 +794,48 @@ const PROXIMOS_PASSOS = [
 
 const REUNIOES = [
   {
+    data: '2026-11-05',
+    titulo: 'FUP Edge UOL — 2ª Região Glete (05/11)',
+    duracao: '13 min',
+    participantes: [
+      ['Diogo Lerison',                         'binario'],
+      ['Luiz Justino',                           'binario'],
+      ['Matheus Almeida',                        'binario'],
+      ['Sidrack Ferreira Silva Junior',          'algar'],
+      ['Fernando Henrique Menezes de Almeida',  'algar']
+    ],
+    decisoes: [
+      ['Observabilidade: manter conclusão até 11/11, com possibilidade de antecipar', 'Desenvolvimento e Matheus atuando nas regras e componentes. Acompanhamento separado da disponibilidade dos demais serviços.'],
+      ['GMUD de imagens: executar somente após deploy e aprovação no fluxo de mudança', 'Janela sugerida para 06/11 (sexta-feira). Sem impacto esperado nos serviços — foco em revisão visual e disponibilidade de imagens.'],
+      ['Object Storage não bloqueia a entrega inicial da SP2', 'VMs criadas e em configuração. Dell Storage sem suporte nativo para o modelo discutido — avaliação sobre manter dentro do OpenStack ou em camada externa. Tamboré como contingência, se necessário.'],
+      ['Validação funcional da SP2: executar testes mesmo com configuração replicada de Tamboré', 'Fernando confirmou redes adequadas e porta 80 liberada. Testes indicados para segunda (09/11) e terça (10/11).'],
+      ['NovaControl/VMs Windows: resposta técnica aceita pela Edge UOL', 'Procedimento pode ser aplicado; clientes com cluster + shared disk deverão ser comunicados previamente.'],
+      ['Cache de imagens: registrar procedimento operacional de recache', 'Cache habilitado na SP2; 31 máquinas criadas em ~8 min. Qualquer alteração de imagem (inclusive visibilidade) pode exigir reconstrução do cache.']
+    ],
+    pontos: [
+      'Observabilidade permanece como único item pendente para conclusão da segunda região.',
+      'GMUD prevista para 06/11 após conclusão do deploy pelo desenvolvimento.',
+      'Object Storage: Luiz criou as VMs; próximo passo é testar e definir arquitetura definitiva (~6 TB no cenário inicial).',
+      'Fernando confirmou configuração de rede adequada; porta 80 liberada conforme solicitado por Matheus.',
+      'Portal de chamados: credenciais encaminhadas; Fernando identificou erro no e-mail/template — Diogo solicitará correção.',
+      'Chamado Trove: retorno técnico dado; aguarda novo teste do cliente para encerramento. Rafael apoiará a validação.',
+      'Autenticação e logs de Security Group: permanecem no radar, sem conclusão na reunião.',
+      'Cache SP2: 31 máquinas em ~8 min; sem limitação física de cache como na SP1.'
+    ],
+    pendencias: [
+      ['Finalizar observabilidade da SP2', 'Matheus / Desenvolvimento', '11/11/2026'],
+      ['Concluir deploy e formalizar GMUD das imagens', 'Binario Cloud / Diogo', null],
+      ['Submeter/aprovar janela de mudança no controle interno da Edge UOL', 'Sidrack / Edge UOL', null],
+      ['Executar testes e definir arquitetura do Object Storage', 'Luiz Justino', null],
+      ['Executar validações funcionais da SP2', 'Edge UOL / Binario Cloud', '09–10/11/2026'],
+      ['Validar acesso ao portal de chamados', 'Edge UOL', null],
+      ['Corrigir endereço/template do e-mail de acesso ao portal', 'Diogo / equipe de suporte', null],
+      ['Acompanhar autenticação e logs de Security Group', 'Binario Cloud / Edge UOL', null],
+      ['Enviar orientação sobre recache após alteração de imagens', 'Matheus Almeida', null]
+    ],
+    obs: 'Reunião FUP — 05/11/2026 — 13 min.'
+  },
+  {
     data: '2026-11-03',
     titulo: 'FUP Edge UOL — 2ª Região Glete (03/11)',
     duracao: '~27 min',
