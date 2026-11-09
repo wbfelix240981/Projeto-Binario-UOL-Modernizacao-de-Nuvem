@@ -752,7 +752,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-11-09T07:22:00Z";   // dados lidos do ClickUp em 09/11/2026 04:22 (BRT)
+const LAST_SYNC_UTC = "2026-11-09T13:05:00Z";   // dados lidos do ClickUp em 09/11/2026 10:05 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -998,7 +998,7 @@ const METAS = [
    { n:'Storages', party:'binario', assignee:'Luiz Fernando · Diogo Lerison', status:'shipped', start:'2026-10-06', due:'2026-10-16', id:'86akry6ev' }
  ]) },
 
- { num:2, name:'Marco 2 — Fase 02 · Implementação', short:'Fase 02 · Implementação', status:'in progress', assignee:'Luiz Fernando · Matheus do Rosario',
+ { num:2, name:'Marco 2 — Fase 02 · Implementação', short:'Fase 02 · Implementação', status:'shipped', assignee:'Luiz Fernando · Matheus do Rosario',
    detail:'Pré-requisitos e OpenStack (Dia 1): VMs dos controllers, validação de redes, instalação e provisionamento do BCBOX, GitLab e restore das configurações. Instalação do BCP (Dia 2) com deploy pelo BCBOX e Skyline personalizado.',
    fases: inh([
    { n:'Pré-requisitos – Dia 1', party:'binario', assignee:'Luiz Fernando', status:'shipped', start:'2026-10-12', due:'2026-10-23', id:'86akry7m8', ativ:[
@@ -1026,13 +1026,13 @@ const METAS = [
      { n:'Validar alterações feitas na automação', id:'86akry7xj', status:'shipped', assignee:MR },
      { n:'Checar as configurações do BCBOX vs Kolla', id:'86akry7x4', status:'shipped', assignee:MR },
      { n:'Subir o GitLab no ambiente do cliente', id:'86akry7vz', status:'shipped', assignee:'Vitor Ribeiro' },
-     { n:'Subir imagens PaaS', id:'86akry7we', assignee:'Matheus Ventura', start:'2026-10-26', due:'2026-10-30', status:'in progress' },
+     { n:'Subir imagens PaaS', id:'86akry7we', assignee:'Matheus Ventura', start:'2026-10-26', due:'2026-10-30', status:'shipped' },
      { n:'qemu.conf.j2', id:'86akry7xx', assignee:MR, status:'shipped' },
      { n:'nova-compute.json.j2', id:'86akry7xq', assignee:MR, status:'shipped' },
      { n:'nova-libvirt.json.j2', id:'86akry7xp', assignee:MR, status:'shipped' } ] },
-   { n:'Instalação – BCP – Dia 2', party:'binario', assignee:'Matheus · Guilherme Lopes', status:'in progress', start:'2026-10-12', due:'2026-10-23', id:'86akry7xe', ativ:[
-     { n:'Executar deploy pelo BCBOX', id:'86akry7xk', status:'in progress', obs:'Inclui subir o Skyline personalizado.' },
-     { n:'Acompanhamento para possíveis erros', id:'86akry7xr', status:'in progress', assignee:'Matheus do Rosario' } ] }
+   { n:'Instalação – BCP – Dia 2', party:'binario', assignee:'Matheus · Guilherme Lopes', status:'shipped', start:'2026-10-12', due:'2026-10-23', id:'86akry7xe', ativ:[
+     { n:'Executar deploy pelo BCBOX', id:'86akry7xk', status:'shipped', obs:'Inclui subir o Skyline personalizado.' },
+     { n:'Acompanhamento para possíveis erros', id:'86akry7xr', status:'shipped', assignee:'Matheus do Rosario' } ] }
  ]) },
 
  { num:3, name:'Marco 3 — Fase 03 · Validação', short:'Fase 03 · Validação', status:'in progress', assignee:'Matheus do Rosario',
@@ -1062,16 +1062,16 @@ const METAS = [
      { n:'Criar banco de dados (Trove)', id:'86akry7va', status:'shipped' },
      { n:'Criar NFS (Manila)', id:'86akry7vu', status:'shipped' },
      { n:'Criar Object Storage (RGW)', id:'86akry7vv', status:'in progress' },
-     { n:'PaaS', id:'86akry7wb', status:'backlog' },
+     { n:'PaaS', id:'86akry7wb', status:'shipped' },
      { n:'Observabilidade', id:'86akry7wa', status:'shipped' } ] }
  ]) },
 
- { num:4, name:'Marco 4 — Produção', short:'Produção', status:'backlog', assignee:'Guilherme Lopes',
+ { num:4, name:'Marco 4 — Produção', short:'Produção', status:'in progress', assignee:'Guilherme Lopes',
    detail:'Subida do BCP em produção, módulo de observabilidade no painel e configuração do DNS.',
    fases: inh([
-   { n:'Subir BCP em produção', party:'binario', assignee:'Guilherme Lopes', status:'backlog', start:'2026-10-30', due:'2026-10-30', id:'86akry7m6' },
-   { n:'Subir módulo de observabilidade no painel', party:'binario', assignee:'Guilherme Lopes', status:'backlog', start:'2026-10-30', due:'2026-11-06', id:'86akry7nc' },
-   { n:'Configuração do DNS', party:'binario', assignee:'Guilherme Lopes', status:'backlog', start:'2026-10-30', due:'2026-11-06', id:'86akry7q8' }
+   { n:'Subir BCP em produção', party:'binario', assignee:'Guilherme Lopes', status:'shipped', start:'2026-10-30', due:'2026-10-30', id:'86akry7m6' },
+   { n:'Subir módulo de observabilidade no painel', party:'binario', assignee:'Guilherme Lopes', status:'in progress', start:'2026-10-30', due:'2026-11-11', id:'86akry7nc' },
+   { n:'Configuração do DNS', party:'binario', assignee:'Guilherme Lopes', status:'in progress', start:'2026-10-30', due:'2026-11-11', id:'86akry7q8' }
  ]) }
 ];
 
