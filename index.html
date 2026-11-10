@@ -485,18 +485,20 @@ footer a{color:var(--brand-700);font-weight:700}
   .gantt{box-shadow:none;margin-top:0}
   .g-scroll{overflow:visible}
   .g-right{width:100% !important;min-width:0 !important}
-  .g-left{width:320px}
-  .g-row,.g-rr{height:62px}
-  .g-row .n{font-size:12px}
-  .g-row .a{font-size:10px}
-  .g-bar{top:19px;height:24px}
-  .g-bar span{font-size:10.5px}
-  .g-over{top:24px;height:14px}
-  .g-ms{top:24px;width:13px;height:13px}
-  .g-h{height:28px}
-  .g-grid{top:28px}
-  .g-today b{top:6px}
-  .g-legend{padding:6px 10px;font-size:10px}
+  .g-left{width:210px;flex-shrink:0}
+  .g-body{display:flex;overflow:visible}
+  .g-row,.g-rr{height:52px}
+  .g-row .n{font-size:11px;white-space:normal;line-height:1.2}
+  .g-row .a{font-size:9px}
+  .g-bar{top:14px;height:22px}
+  .g-bar span{font-size:10px}
+  .g-over{top:19px;height:12px}
+  .g-ms{top:19px;width:12px;height:12px}
+  .g-h{height:26px;font-size:9px}
+  .g-grid{top:26px}
+  .g-tick{font-size:8.5px}
+  .g-today b{top:4px;font-size:9px}
+  .g-legend{padding:5px 8px;font-size:9px;flex-wrap:wrap;gap:4px}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 
@@ -506,7 +508,7 @@ footer a{color:var(--brand-700);font-weight:700}
 @page{size:A4;margin:12mm 11mm 14mm 11mm;
   @bottom-left{content:"Edge UOL · 2° Região Glete · Binário Cloud Platform";font:600 8px 'Nunito Sans',sans-serif;color:#7f7c98}
   @bottom-right{content:"Página " counter(page) " de " counter(pages);font:600 8px 'Nunito Sans',sans-serif;color:#7f7c98}}
-@page cronograma{size:A4 landscape;margin:9mm 10mm 12mm 10mm}
+@page cronograma{size:A4 landscape;margin:8mm 8mm 10mm 8mm}
 @media print{
   html,body{background:#fff !important}
   body{font-size:11px}
