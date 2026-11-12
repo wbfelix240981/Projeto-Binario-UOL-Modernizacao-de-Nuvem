@@ -754,7 +754,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-11-12T04:41:12Z";   // dados lidos do ClickUp em 12/11/2026 01:41 (BRT)
+const LAST_SYNC_UTC = "2026-11-12T11:30:00Z";   // dados lidos do ClickUp em 12/11/2026 08:30 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -795,6 +795,49 @@ const PROXIMOS_PASSOS = [
 ];
 
 const REUNIOES = [
+  {
+    data: '2026-11-10',
+    titulo: 'FUP Edge UOL — 2ª Região Glete (10/11)',
+    duracao: '19 min',
+    participantes: [
+      ['Diogo Lerison',                           'binario'],
+      ['Matheus Almeida',                          'binario'],
+      ['Sidrack Ferreira Silva Junior',            'algar'],
+      ['Fernando Henrique Menezes de Almeida',    'algar'],
+      ['Rafael Antunes Pedrosa Alves',             'algar'],
+      ['Samy Silva de Oliveira',                   'algar']
+    ],
+    decisoes: [
+      ['Object Storage', 'Manter implementação em andamento; nova conclusão prevista para 13/11/2026'],
+      ['PaaS', 'Reexecutar testes de WordPress e Kubernetes com validação completa das aplicações'],
+      ['Banco de dados', 'Avaliar ajuste do limite de 500 GB por instância'],
+      ['Recreate de snapshot', 'Tratar como item crítico; investigar ocorrência em Glete e Tamboré'],
+      ['Performance de storage', 'Priorizar análise de SAN e gargalos de performance antes de ampliar migrações'],
+      ['Backup', 'Usar Storware como referência técnica para alinhamento com time Edge UOL']
+    ],
+    pontos: [
+      'Ambiente da segunda região considerado pronto e entregue para continuidade das validações',
+      'Observabilidade configurada e funcional; principal pendência permanece no Object Storage',
+      'PaaS: wizard de WordPress e Kubernetes não avança — GMUD executada na sexta anterior',
+      'Banco de dados: limite de 500 GB por instância definido no arquivo de configuração, replicado de Tamboré',
+      'Bug crítico "Recreate de snapshot": VM aparece ativa mas console retorna "could not be found"; também reproduzido em Tamboré',
+      'Observabilidade: requisições HTTP 503 ainda observadas no debug do navegador',
+      'Performance de storage: latência ~40 ms em teste com VM única (esperado 5–10 ms); análise envolve vMax vs PowerStore',
+      'Backup: solução Quest para Edge UOL; Diogo responsável por identificar time Storware'
+    ],
+    pendencias: [
+      ['Agendar checkpoint para 11/11 às 17h', 'Diogo', '11/11/2026'],
+      ['Retestar PaaS (WordPress/Kubernetes) ponta a ponta', 'Samy / Rafael / Binario', '11/11/2026'],
+      ['Investigar Recreate de snapshot', 'Matheus / Engenharia', 'Prioridade alta'],
+      ['Validar configurações de SAN e multipath da Glete', 'Matheus / Luiz Justino', 'Antes do checkpoint'],
+      ['Executar novos testes de performance de storage', 'Samy / Rafael / Binario', 'Antes do checkpoint'],
+      ['Avaliar ajuste do limite de 500 GB por instância de banco', 'Matheus / Engenharia', 'A definir'],
+      ['Concluir Object Storage', 'Jorginho / Luiz Justino', '13/11/2026'],
+      ['Levantar responsáveis pela implementação e sustentação do Storware', 'Diogo', 'Antes da reunião de backup'],
+      ['Alinhar participantes e pauta técnica de backup com Guilherme', 'Diogo', 'A definir']
+    ],
+    obs: 'Próximo checkpoint: 11/11/2026 às 17h.'
+  },
   {
     data: '2026-11-05',
     titulo: 'FUP Edge UOL — 2ª Região Glete (05/11)',
