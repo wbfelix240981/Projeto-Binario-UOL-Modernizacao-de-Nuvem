@@ -796,6 +796,94 @@ const PROXIMOS_PASSOS = [
 
 const REUNIOES = [
   {
+    data: '2026-11-19',
+    titulo: 'FUP Edge UOL — 2ª Região Glete (19/11)',
+    duracao: '30 min',
+    participantes: [
+      ['Diogo Lerison',                           'binario'],
+      ['Luiz Justino',                             'binario'],
+      ['Rômulo Grams',                             'binario'],
+      ['Sidrack Ferreira Silva Junior',            'algar'],
+      ['Rafael Antunes Pedrosa Alves',             'algar'],
+      ['Fernando Henrique Menezes de Almeida',    'algar']
+    ],
+    decisoes: [
+      ['Performance de storage', 'Desativar QoS dos flavors e executar novo teste com VM nova para medir latência sem configuração anterior'],
+      ['Hosts Lenovo', 'Iniciar deploy a partir de 23/11/2026; corrigir inversão das zonas A/B no cadastro'],
+      ['Object Storage', 'Implantar Swift manualmente em três VMs com discos anexados, integrado ao OpenStack'],
+      ['Nova Control / VMs Windows', 'Levantar VMs Windows com mais de 2 discos; avaliar atualização do driver VirtIO na imagem base'],
+      ['Conectividade VMs dev', 'Acesso por VPN — sem bastion; Luiz consolida redes, Diogo libera túnel com Marcelo'],
+      ['Cobertura férias', 'Sidrack e Samy ausentes a partir de 23/11; Rafael e Fernando assumem continuidade até 14/12']
+    ],
+    pontos: [
+      'Ajustes de PaaS/Nova Scheduler concluídos; Recreate de snapshot corrigido e validado',
+      'Multipath ajustado (reunião troubleshooting com Samy); tuning específico do PowerMax ainda pendente',
+      'QoS dos flavors será desativado para testes de performance; expectativa de latência ~5 ms após remoção',
+      'Hosts Lenovo prontos para inclusão; zonas A/B aparecem invertidas no cadastro — a corrigir no deploy',
+      'Object Storage ainda indisponível na Glete — Swift será implantado diretamente nos controllers em VMs',
+      'VMs Windows com múltiplos discos podem apresentar discos offline após hard reboot — item crítico de Nova Control',
+      'IPs públicos removidos de VMs de dev em Tamboré; acesso agora via VPN + regra de firewall',
+      'PaaS: nova imagem customizada (OPNsense) deve ser publicada pela Edge ou encaminhada à Binario para inclusão'
+    ],
+    pendencias: [
+      ['Enviar redes necessárias para acesso VPN (incluindo Glete)', 'Luiz Justino', 'Em andamento'],
+      ['Liberar rota do túnel e regras de firewall (10.161/10.169 e demais redes)', 'Diogo / Marcelo', 'Pendente'],
+      ['Desativar QoS dos flavors e executar novo teste com VM nova', 'Luiz / Rafael / Fernando', 'Em andamento'],
+      ['Compartilhar resultados dos testes de performance', 'Fernando / Rafael', 'Pendente'],
+      ['Iniciar deploy dos hosts Lenovo e corrigir inversão A/B', 'Equipe técnica', 'A partir de 23/11/2026'],
+      ['Levantar VMs Windows com mais de 2 discos', 'Rômulo Grams', 'Em andamento'],
+      ['Avaliar atualização de VirtIO e correção da imagem base', 'Rômulo / Engenharia', 'Pendente'],
+      ['Subir Swift em Glete e validar Object Storage', 'Luiz Justino', 'Pendente'],
+      ['Decidir manutenção do Object Storage na oferta da Glete', 'Binario + Edge UOL', 'Após testes'],
+      ['Concluir tuning/revisão de multipath do PowerMax', 'Luiz Justino', 'Pendente']
+    ],
+    obs: 'Sidrack e Samy ausentes de 23/11 a 14/12; ponto de contato: Rafael e Fernando.'
+  },
+  {
+    data: '2026-11-17',
+    titulo: 'FUP Edge UOL — 2ª Região Glete (17/11)',
+    duracao: '~60 min',
+    participantes: [
+      ['Diogo Lerison',                           'binario'],
+      ['Luiz Justino',                             'binario'],
+      ['Rômulo Grams',                             'binario'],
+      ['Fernando Henrique Menezes de Almeida',    'algar'],
+      ['Rafael Antunes Pedrosa Alves',             'algar']
+    ],
+    decisoes: [
+      ['PaaS', 'Ajuste concluído em Glete (WordPress e Kubernetes); deploy em Tamboré fora do horário de produção (após 19h)'],
+      ['Storage / Multipath', 'Configurações de multipath aplicadas em Glete; retomar testes de performance com Samy'],
+      ['Nova Scheduler', 'Parâmetro build_failure_weight_multiplier reduzido de 1.000.000 para 0,5 — corrige balanceamento de novas VMs'],
+      ['Object Storage / Swift', 'Kolla não faz mais deploy do Swift; estratégia: instalação direta nas VMs dos controllers integrada ao OpenStack'],
+      ['Segurança', 'VMs da Binario com interface em rede pública devem perder saída direta à Internet; acesso externo via security box da Edge'],
+      ['Zonas A/B Glete', 'Inversão identificada: Zona A = Lenovo (101–104, produção); Zona B = Cisco M4 (201–204, testes)']
+    ],
+    pontos: [
+      'Ambiente em fase final de validação; Recreate corrigido via GMUD, balanceamento de hosts corrigido',
+      'PaaS: WordPress funcional mas wizard com falha no botão de criação de serviço; Kubernetes com erro de deploy no YAML — ambos corrigidos em Glete',
+      'Nova Scheduler: compute 01 com ~99% de utilização; necessário avaliar live/cold migration das instâncias existentes',
+      'Multipath revisado e aplicado em Glete (Tamboré já possuía); testes de performance serão refeitos após ajuste',
+      'Swift: Kolla abandonado; instalação manual nas VMs dos controllers via rede de API',
+      'Segurança: ClickHouse e Airflow com IPs públicos identificados pelo IDS da Edge — Diogo tratará com dev até 19/11',
+      'Zonas A/B invertidas no cadastro; hosts Lenovo são o foco para produção; documentação das 4 Lenovo em falta',
+      'Nova Control: Rômulo compartilhará análise; Backup: Diogo identifica responsável pelo Storware'
+    ],
+    pendencias: [
+      ['Deploy PaaS em Tamboré fora do horário de produção', 'Fernando / Sidrack / Binario', 'Após 19h — janela a confirmar'],
+      ['Retestar WordPress e Kubernetes ponta a ponta', 'Equipe técnica / Edge UOL', 'Após deploy'],
+      ['Repetir testes de performance do storage após ajuste de multipath', 'Samy / Edge UOL', 'Antes da próxima FUP'],
+      ['Levantar VMs do compute 01 e definir rebalanceamento', 'Rômulo / Diogo', 'Antes da próxima FUP'],
+      ['Prosseguir instalação do Swift diretamente nos controllers', 'Luiz Justino', 'Em andamento'],
+      ['Enviar nomes e IDs das VMs com acesso direto à Internet', 'Fernando', 'Hoje'],
+      ['Tratar acesso indevido à Internet com time de desenvolvimento', 'Diogo', '19/11/2026'],
+      ['Revisar chamado de inclusão de modelo PaaS OPNsense', 'Diogo / Gustavo', 'Até próxima FUP'],
+      ['Enviar documentação das quatro Lenovo compute', 'Rafael', 'Quanto antes'],
+      ['Revisar/inverter identificação das zonas A e B em Glete', 'Binario / Edge UOL', 'Após recebimento da documentação'],
+      ['Identificar responsável pela implementação/sustentação do Storware', 'Diogo', 'Em andamento']
+    ],
+    obs: 'Próxima FUP: 19/11/2026.'
+  },
+  {
     data: '2026-11-10',
     titulo: 'FUP Edge UOL — 2ª Região Glete (10/11)',
     duracao: '19 min',
