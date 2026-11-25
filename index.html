@@ -754,7 +754,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-11-25T12:50:00Z";   // dados lidos do ClickUp em 25/11/2026 09:50 (BRT)
+const LAST_SYNC_UTC = "2026-11-25T13:10:00Z";   // dados lidos do ClickUp em 25/11/2026 10:10 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -795,6 +795,39 @@ const PROXIMOS_PASSOS = [
 ];
 
 const REUNIOES = [
+  {
+    data: '2026-11-24',
+    titulo: 'FUP Edge UOL — 2ª Região Glete (24/11)',
+    duracao: '15 min',
+    participantes: [
+      ['Diogo Lerison',                           'binario'],
+      ['Luiz Justino',                             'binario'],
+      ['Rafael Antunes Pedrosa Alves',             'algar']
+    ],
+    decisoes: [
+      ['Migração Glete', 'Primeira migração realizada sem problemas; próximas migrações serão referência para avaliar performance em maior carga'],
+      ['QoS / Volume Types', 'QoS removido do OpenStack — controle passa para policies do Dell VMAX; novos tipos (Platinum 2 e Platinum 4) disponibilizados; Luiz realizará testes e documentará'],
+      ['Problema Windows', 'Rômulo identificou causa e encaminhou à Engenharia; GMUD deve ser preparada e aplicada até 27/11 fora do horário operacional'],
+      ['Hosts Lenovo', 'Acesso encaminhado; configuração inicia em 25/11/2026 sem janela formal']
+    ],
+    pontos: [
+      'Primeira migração de cliente para Glete concluída (VM única — web server); sem problemas reportados por Fernando',
+      'Incidente Windows: VM perdeu referência/configuração após reinicialização em migração na madrugada de segunda; causa identificada por Rômulo',
+      'QoS da Glete removido do OpenStack; volume types antigos mantidos privados; novos: Platinum 2 (Gold) e Platinum 4 (Diamond/Silver) — confirmação final do mapeamento pendente',
+      'VM de observabilidade/Airflow ainda usa volume type antigo — requer janela específica antes de alteração',
+      'Classificação de VMs de teste vs. produção necessária para planejar limpeza e migração de volume type',
+      'Hosts Lenovo: acesso encaminhado por Diogo; configuração prevista para 25/11 sem janela formal de manutenção',
+      'FUP de quinta mantida para alinhar GMUD do problema Windows; sexta para validação com Rafael'
+    ],
+    pendencias: [
+      ['Validar novos volume types e QoS (Gold/Diamond/Silver)', 'Luiz Justino', '24/11 — tarde'],
+      ['Preparar GMUD do problema Windows (causa, plano, rollback)', 'Luiz Justino / Engenharia', '27/11/2026'],
+      ['Iniciar configuração dos hosts Lenovo', 'Luiz Justino', '25/11/2026'],
+      ['Planejar migração do volume type do Airflow', 'Luiz Justino', 'A definir — janela específica'],
+      ['Classificar VMs de teste x produção', 'Edge UOL', 'Após testes de volume types']
+    ],
+    obs: 'Problema Windows deve ser tratado por GMUD específica antes de nova intervenção.'
+  },
   {
     data: '2026-11-19',
     titulo: 'FUP Edge UOL — 2ª Região Glete (19/11)',
