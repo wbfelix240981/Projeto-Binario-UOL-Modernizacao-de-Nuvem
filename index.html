@@ -754,7 +754,7 @@ const PROJECT = {
   sourceUrl: '',
   scheduleDraft:false
 };
-const LAST_SYNC_UTC = "2026-11-25T04:39:14Z";   // dados lidos do ClickUp em 25/11/2026 01:39 (BRT)
+const LAST_SYNC_UTC = "2026-11-25T12:50:00Z";   // dados lidos do ClickUp em 25/11/2026 09:50 (BRT)
 
 const LOGIN_ATIVO = true;
 const SOMENTE_LEITURA = false;
@@ -1168,7 +1168,7 @@ const METAS = [
      { n:'Acompanhamento para possíveis erros', id:'86akry7xr', status:'shipped', assignee:'Matheus do Rosario' } ] }
  ]) },
 
- { num:3, name:'Marco 3 — Fase 03 · Validação', short:'Fase 03 · Validação', status:'in progress', assignee:'Matheus do Rosario',
+ { num:3, name:'Marco 3 — Fase 03 · Validação', short:'Fase 03 · Validação', status:'shipped', assignee:'Matheus do Rosario',
    detail:'Criação de volume types, flavors e redes, upload de imagens e testes de todos os serviços (VM, Octavia, Magnum, Trove, Manila, RGW, PaaS e observabilidade). Sugestão registrada no ClickUp: criar um YAML do Heat para executar todos os testes.',
    fases: inh([
    { n:'Volume types', party:'binario', assignee:MR, status:'shipped', start:'2026-10-30', due:'2026-11-06', id:'86akry7nq', ativ:[
@@ -1188,23 +1188,23 @@ const METAS = [
      { n:'Criar rede interna', id:'86akry7u2', status:'shipped' },
      { n:'Testar acesso às VMs', id:'86akry7ur', status:'shipped' },
      { n:'Testar IOPs', id:'86akry7vb', status:'shipped' } ] },
-   { n:'Testar todas as tasks', party:'binario', assignee:MR, status:'in progress', start:'2026-10-30', due:'2026-11-06', id:'86akry7ub', ativ:[
+   { n:'Testar todas as tasks', party:'binario', assignee:MR, status:'shipped', start:'2026-10-30', due:'2026-11-06', id:'86akry7ub', ativ:[
      { n:'Criar VM', id:'86akry7up', status:'shipped' },
      { n:'Criar load balancer (Octavia)', id:'86akry7uq', status:'shipped' },
      { n:'Criar cluster Kubernetes (Magnum)', id:'86akry7v9', status:'shipped' },
      { n:'Criar banco de dados (Trove)', id:'86akry7va', status:'shipped' },
      { n:'Criar NFS (Manila)', id:'86akry7vu', status:'shipped' },
-     { n:'Criar Object Storage (RGW)', id:'86akry7vv', status:'in progress' },
+     { n:'Criar Object Storage (RGW)', id:'86akry7vv', status:'shipped' },
      { n:'PaaS', id:'86akry7wb', status:'shipped' },
      { n:'Observabilidade', id:'86akry7wa', status:'shipped' } ] }
  ]) },
 
- { num:4, name:'Marco 4 — Produção', short:'Produção', status:'in progress', assignee:'Guilherme Lopes',
+ { num:4, name:'Marco 4 — Produção', short:'Produção', status:'shipped', assignee:'Guilherme Lopes',
    detail:'Subida do BCP em produção, módulo de observabilidade no painel e configuração do DNS.',
    fases: inh([
    { n:'Subir BCP em produção', party:'binario', assignee:'Guilherme Lopes', status:'shipped', start:'2026-10-30', due:'2026-10-30', id:'86akry7m6' },
-   { n:'Subir módulo de observabilidade no painel', party:'binario', assignee:'Guilherme Lopes', status:'in progress', start:'2026-10-30', due:'2026-11-11', id:'86akry7nc' },
-   { n:'Configuração do DNS', party:'binario', assignee:'Guilherme Lopes', status:'in progress', start:'2026-10-30', due:'2026-11-11', id:'86akry7q8' }
+   { n:'Subir módulo de observabilidade no painel', party:'binario', assignee:'Guilherme Lopes', status:'shipped', start:'2026-10-30', due:'2026-11-11', id:'86akry7nc' },
+   { n:'Configuração do DNS', party:'binario', assignee:'Guilherme Lopes', status:'shipped', start:'2026-10-30', due:'2026-11-11', id:'86akry7q8' }
  ]) }
 ];
 
